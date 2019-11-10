@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- status 指定打印日志的级别 -->
 <Configuration status="INFO">
 
     <!--变量配置-->
@@ -15,7 +16,7 @@
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
 
-        <!-- 常规info -->
+        <!-- 常规info ，每次大小超过size，则会以 filePattern 的格式重新生成一个文件，-->
         <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/info.log" filePattern="${LOG_HOME}/info-%d{MM-dd-yyyy}-%i.log">
             <!-- 只打印info级别日志 -->
             <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
