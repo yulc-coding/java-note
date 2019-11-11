@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
-    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-    <property name="LOG_HOME" value="./log"/>
+    <!--定义日志文件的存储地址 不要配置相对路径 (本地开发可以用./logs) -->
+    <property name="LOG_HOME" value="./logs"/>
+    <!--
+        格式化输出：
+        %d表示日期；
+        %X打印自定义的数据，通过 org.sl4j.MDC 设置，ex: MDC.put("user", "aaa");
+        %thread表示线程名；
+        %-5level：级别从左显示5个字符宽度；
+        %logger{50} 表示logger名字最长50个字符，否则按照句点分割
+        %msg：日志消息；
+        %n是换行符
+    -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{user}]-[%X{args}] [%thread] %-5level %logger{50} - %msg%n"/>
 
     <!-- Console 输出设置 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <withJansi>true</withJansi>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %blue(%X{user}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{50}) - %cyan(%msg%n)
-            </pattern>
+            <!-- 控制台彩色打印 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %blue([%X{user}]-[%X{args}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{50}) - %cyan(%msg%n)</pattern>
             <charset>utf8</charset>
         </encoder>
     </appender>
 
     <!-- 定时任务类设置单独日志文件 -->
     <appender name="SCHEDULE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--没有File 文件不会按修改-->
+        <!--没有File 文件不会按自定义格式生成-->
         <File>${LOG_HOME}/schedule.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
@@ -28,8 +39,26 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %X{user} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <!-- 打印INFO及以上日志-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- 指定包或者类的日志 -->
+    <appender name="SERVICE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/service.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/service.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>7</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
         </encoder>
         <!-- 打印INFO及以上日志-->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -39,21 +68,16 @@
 
     <!-- 默认生成日志文件 -->
     <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--没有File 文件不会按修改-->
         <File>${LOG_HOME}/info.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
             <FileNamePattern>${LOG_HOME}/info.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
-            <!--日志文件保留天数-->
             <MaxHistory>7</MaxHistory>
-            <!--日志文件最大的大小-->
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>5MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %X{user} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <pattern>${LOG_PATTERN}</pattern>
         </encoder>
         <!-- 只打印INFO日志 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -63,30 +87,39 @@
         </filter>
     </appender>
 
+    <!-- error 级别日志文件 -->
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
         <File>${LOG_HOME}/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
             <FileNamePattern>${LOG_HOME}/error.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
-            <!--日志文件保留天数-->
             <MaxHistory>30</MaxHistory>
-            <!--日志文件最大的大小-->
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>2MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %X{user} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
-    <!--这里的name和业务类中的getLogger中的字符串是一样的 additivity="false" 禁止这里的内容向上传递，否则会同时显示在默认日志中-->
+    <!--
+        单独日志打印：
+        name 属性：
+            1、name属性和LoggerFactory.getLogger("schedule") 中的属性一样
+            2、name属性为指定的包或者类路径
+        level: 指定日志级别
+        additivity：内容是否向上传递，如果为true，否则会同时显示在root配置的认日志中
+    -->
+    <!--这里的name和业务类中的getLogger中的字符串是一样的-->
     <logger name="schedule" level="INFO" additivity="false">
         <appender-ref ref="SCHEDULE-APPENDER"/>
+    </logger>
+    <!-- org.ylc.note.logback.service 包下的所有日志独立打印 （也可以指定到类上）-->
+    <logger name="org.ylc.note.logback.service" level="INFO" additivity="false">
+        <appender-ref ref="SERVICE-APPENDER"/>
     </logger>
 
     <!-- 日志输出级别 -->

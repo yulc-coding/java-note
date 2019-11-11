@@ -16,9 +16,10 @@ class Log4j2ApplicationTests {
     private final Logger normalLogger = LoggerFactory.getLogger(Log4j2ApplicationTests.class);
 
     /**
-     * 监控类，按照参数区分，这里为  monitor
+     * 定时任务类日志，这里的name必须和XML中logger 的name一致，这里为 schedule
      */
-    private final Logger monitorLogger = LoggerFactory.getLogger("monitor");
+    private final Logger scheduleLogger = LoggerFactory.getLogger("schedule");
+
 
     /**
      * 普通日志测试
@@ -28,6 +29,7 @@ class Log4j2ApplicationTests {
         normalLogger.info("this is a info log with out args");
         normalLogger.error("this is a error log with out args");
     }
+
 
     /**
      * 带参数的日志测试
@@ -40,13 +42,14 @@ class Log4j2ApplicationTests {
         normalLogger.error("this is a error log with args");
     }
 
+
     /**
      * 监控类日志测试
      */
     @Test
-    void monitorLogTest() {
-        monitorLogger.info("this is a monitor info log");
-        monitorLogger.info("this is a monitor error log");
+    void scheduleLogTest() {
+        scheduleLogger.info("this is a schedule info log");
+        scheduleLogger.info("this is a schedule error log");
     }
 
 }
