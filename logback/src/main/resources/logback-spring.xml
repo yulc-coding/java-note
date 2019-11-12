@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    configuration 属性：
+    scan: 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+    scanPeriod: 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
+    debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+-->
 <configuration debug="false">
     <!--定义日志文件的存储地址 不要配置相对路径 (本地开发可以用./logs) -->
     <property name="LOG_HOME" value="./logs"/>
@@ -14,9 +20,10 @@
     -->
     <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{user}]-[%X{args}] [%thread] %-5level %logger{50} - %msg%n"/>
 
-    <!-- Console 输出设置 -->
+    <!-- Console 控制台输出设置 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <withJansi>true</withJansi>
+        <!-- 对日志进行格式化 -->
         <encoder>
             <!-- 控制台彩色打印 -->
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %blue([%X{user}]-[%X{args}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{50}) - %cyan(%msg%n)</pattern>
@@ -26,18 +33,19 @@
 
     <!-- 定时任务类设置单独日志文件 -->
     <appender name="SCHEDULE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--没有File 文件不会按自定义格式生成-->
+        <!-- 当前日志文件的名字 -->
         <File>${LOG_HOME}/schedule.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
+            <!-- 归档日志文件输出的文件名 -->
             <FileNamePattern>${LOG_HOME}/schedule.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
-            <!--日志文件保留天数-->
+            <!-- 日志文件保留天数 -->
             <MaxHistory>7</MaxHistory>
-            <!--日志文件最大的大小-->
+            <!-- 单个日志文件最大的大小 -->
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>5MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
+        <!-- 对日志进行格式化 -->
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
@@ -122,7 +130,7 @@
         <appender-ref ref="SERVICE-APPENDER"/>
     </logger>
 
-    <!-- 日志输出级别 -->
+    <!-- 统一日志输出级别 -->
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="INFO"/>
