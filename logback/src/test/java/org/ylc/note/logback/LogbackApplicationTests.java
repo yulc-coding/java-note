@@ -24,7 +24,6 @@ class LogbackApplicationTests {
     @Autowired
     private MyService myService;
 
-
     /**
      * 普通日志测试
      */
@@ -33,7 +32,6 @@ class LogbackApplicationTests {
         normalLogger.info("this is a info log with out args");
         normalLogger.error("this is a error log with out args");
     }
-
 
     /**
      * 带参数的日志测试
@@ -45,7 +43,6 @@ class LogbackApplicationTests {
         normalLogger.info("this is a info log with args");
         normalLogger.error("this is a error log with args");
     }
-
 
     /**
      * 独立日志测试
@@ -60,6 +57,5 @@ class LogbackApplicationTests {
         // 指定包或者类
         myService.myLog();
     }
-
 
 }
