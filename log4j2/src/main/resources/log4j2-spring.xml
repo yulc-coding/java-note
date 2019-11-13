@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- status 指定打印日志的级别 -->
+<!-- status 表示log4j2本身打印日志的级别 -->
 <Configuration status="INFO">
-
+<!-- https://www.cnblogs.com/hafiz/p/6170702.html -->
     <!--变量配置-->
     <Properties>
-        <!-- 格式化输出：%date表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符-->
-        <!-- %logger{36} 表示 Logger 名字最长36个字符 -->
-        <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{user}]-[%X{args}] [%thread] %-5level %logger{36} - %msg%n" />
-        <!-- 定义日志存储的路径，不要配置相对路径 (本地开发可以用./logs)-->
+        <!--
+            格式化输出：
+            %d表示日期；
+            %X打印自定义的数据，通过 org.sl4j.MDC 设置，ex: MDC.put("user", "aaa");
+            %thread表示线程名；
+            %-5level：级别从左显示5个字符宽度；
+            %logger{50} 表示logger名字最长50个字符，否则按照句点分割
+            %msg：日志消息；
+            %n是换行符
+        -->
+        <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{user}]-[%X{args}] [%thread] %-5level %logger{50} - %msg%n" />
+        <!-- 定义日志存储的路径-->
         <property name="LOG_HOME" value="./logs/" />
     </Properties>
 
     <Appenders>
+        <!-- 控制台打印 -->
         <Console name="STDOUT" target="SYSTEM_OUT">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
 
+        <!--文件会打印出所有信息，append为true,则在日志文件中追加日志，为false则每次项目启动清空文件重新生成，实际作用不大-->
+        <File name="FileLog" fileName="${LOG_HOME}/file.log" append="true">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </File>
+
         <!-- 常规info ，每次大小超过size，则会以 filePattern 的格式重新生成一个文件，-->
         <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/info.log" filePattern="${LOG_HOME}/info-%d{MM-dd-yyyy}-%i.log">
-            <!-- 只打印info级别日志 -->
+            <!-- 只打印info级别日志 这个level 是指输出到文件或其他地方的日志级别 -->
             <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${LOG_PATTERN}" />
             <Policies>
@@ -36,18 +50,67 @@
             <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${LOG_PATTERN}" />
             <Policies>
-                <!--interval属性用来指定多久滚动一次，默认是1 hour-->
                 <TimeBasedTriggeringPolicy interval="1"/>
                 <SizeBasedTriggeringPolicy size="5M"/>
             </Policies>
-            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
+            <DefaultRolloverStrategy fileIndex="max" max="7"/>
+        </RollingFile>
+
+        <!-- service包下的日志 -->
+        <RollingFile name="RollingFileMyService" fileName="${LOG_HOME}/service.log" filePattern="${LOG_HOME}/service-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="5M"/>
+            </Policies>
+            <DefaultRolloverStrategy fileIndex="max" max="7"/>
+        </RollingFile>
+
+        <!-- 指定logger为 schedule 的日志 -->
+        <RollingFile name="RollingFileSchedule" fileName="${LOG_HOME}/schedule.log" filePattern="${LOG_HOME}/schedule-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="5M"/>
+            </Policies>
+            <DefaultRolloverStrategy fileIndex="max" max="7"/>
+        </RollingFile>
+
+        <!-- 指定logger为 asyncLog 的为异步打印日志 -->
+        <RollingFile name="RollingFileAsync" fileName="${LOG_HOME}/async.log" filePattern="${LOG_HOME}/async-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="5M"/>
+            </Policies>
             <DefaultRolloverStrategy fileIndex="max" max="7"/>
         </RollingFile>
     </Appenders>
 
     <Loggers>
+        <!--设置指定包或类的日志级别，ex: 过滤掉spring和mybatis的一些无用的DEBUG信息-->
+        <!--<logger name="org.springframework" level="INFO"></logger>-->
+        <!--<logger name="org.mybatis" level="INFO"></logger>-->
+
+        <!-- 指定具体的包或者类生成单独的文件 additivity 为false 日志不会向上传递，为true，在对应的root日志里面也会打印-->
+        <Logger name="org.ylc.note.log4j2.service" level="info" additivity="false">
+            <AppenderRef ref="RollingFileMyService" />
+        </Logger>
+
+        <!-- 指定logger为 schedule 的日志生成单独的文件 这里的name 和 LoggerFactory.getLogger("schedule") 中的属性一样-->
+        <Logger name="schedule" level="info" additivity="false">
+            <AppenderRef ref="RollingFileSchedule" />
+        </Logger>
+
+        <!-- AsyncRoot - 异步记录日志 - 需要LMAXDisruptor的支持 -->
+        <AsyncLogger name="asyncLog" level="info" additivity="false">
+            <AppenderRef ref="RollingFileAsync"/>
+        </AsyncLogger>
+
+        <!-- 指定项目的根日志 -->
         <Root level="info">
             <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="FileLog"/>
             <AppenderRef ref="RollingFileInfo"/>
             <AppenderRef ref="RollingFileError"/>
         </Root>
