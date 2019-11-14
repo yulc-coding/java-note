@@ -21,6 +21,7 @@ public class MyService {
     public void myLog() {
         logger.debug("this is debug service log");
         logger.info("this is info service log");
+        logger.warn("this is warn service log");
         logger.error("this is error service log");
     }
 

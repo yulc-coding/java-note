@@ -36,6 +36,7 @@ class Log4j2ApplicationTests {
     void normalLogTest() {
         normalLogger.debug("this is a debug log with out args");
         normalLogger.info("this is a info log with out args");
+        normalLogger.warn("this is a warn log with out args");
         normalLogger.error("this is a error log with out args");
     }
 
@@ -48,6 +49,7 @@ class Log4j2ApplicationTests {
         MDC.put("args", "参数");
         normalLogger.debug("this is a debug log with args");
         normalLogger.info("this is a info log with args");
+        normalLogger.warn("this is a warn log with args");
         normalLogger.error("this is a error log with args");
     }
 
@@ -61,6 +63,7 @@ class Log4j2ApplicationTests {
         // 指定名称
         scheduleLogger.debug("this is a schedule debug log");
         scheduleLogger.info("this is a schedule info log");
+        scheduleLogger.warn("this is a schedule warn log");
         scheduleLogger.error("this is a schedule error log");
         // 指定包或者类
         myService.myLog();
@@ -72,8 +75,9 @@ class Log4j2ApplicationTests {
     @Test
     void asyncLogTest() {
         asyncLogger.debug("this is a async log -- debug");
-        asyncLogger.info("this is a begin async log -- info");
-        asyncLogger.error("this is a begin async log -- error");
+        asyncLogger.info("this is a  async log -- info");
+        asyncLogger.warn("this is a  async log -- warn");
+        asyncLogger.error("this is a  async log -- error");
     }
 
 }
