@@ -28,7 +28,7 @@ public class PermissionAspect {
 
     /**
      * 切入点
-     * 切入点为包路径下的：execution(public * org.ylc.note.aop.Controller..*(..))：
+     * 切入点为包路径下的：execution(public * org.ylc.note.aop.controller..*(..))：
      * org.ylc.note.aop.Controller包下任意类任意返回值的 public 的方法
      * <p>
      * 切入点为注解的： @annotation(VisitPermission)
@@ -75,22 +75,27 @@ public class PermissionAspect {
         HttpServletRequest request = attributes.getRequest();
         String token = request.getHeader("token");
         if (StringUtils.isEmpty(token)) {
-            throw new Exception("非法请求");
+            throw new RuntimeException("非法请求，无效token");
         }
+        // 校验token的业务逻辑
+        // ...
 
         /*
          * 获取注解的值，并进行权限验证:
          * redis 中是否存在对应的权限
          * redis 中没有则从数据库中获取权限
-         * 数据空中没有，抛异常，非法请求
+         * 数据空中也没有，抛异常，非法请求，没有权限
          * */
         Method method = ((MethodSignature) proceedingJoinPoint.getSignature()).getMethod();
         VisitPermission visitPermission = method.getAnnotation(VisitPermission.class);
         String value = visitPermission.value();
+        // 校验权限的业务逻辑
         // List<Object> permissions = redis.get(permission)
         // db.getPermission
         // permissions.contains(value)
+        // ...
         System.out.println(value);
+
         // 执行具体方法
         Object result = proceedingJoinPoint.proceed();
 
@@ -105,7 +110,7 @@ public class PermissionAspect {
         // 打印 Http method
         System.out.println("HTTP Method    : " + request.getMethod());
         // 打印调用 controller 的全路径以及执行方法
-        System.out.println("Controller     : " + proceedingJoinPoint.getSignature().getDeclaringTypeName());
+        System.out.println("controller     : " + proceedingJoinPoint.getSignature().getDeclaringTypeName());
         // 调用方法
         System.out.println("Method         : " + proceedingJoinPoint.getSignature().getName());
         // 执行耗时
