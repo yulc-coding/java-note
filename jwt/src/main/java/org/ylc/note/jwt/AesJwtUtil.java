@@ -1,6 +1,11 @@
 package org.ylc.note.jwt;
 
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.symmetric.AES;
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -17,45 +22,26 @@ import java.util.Map;
  * 代码千万行，注释第一行，
  * 注释不规范，同事泪两行。
  * <p>
- * jwt
- * <p>
- * 头信息：
- * Header  Base64Url encoded
- * {
- * "alg": "Algorithm  加密方法：HS256",
- * "cty": "Content Type ",
- * "typ": "Type" ,
- * "kid": "Key Id"
- * }
- * <p>
- * 载体信息：数据包放在这里
- * Payload  Base64Url encoded
- * {
- * "iss": "Issuer JWT的签发者",
- * "aud": "Audience 接收JWT的一方",
- * "sub": "Subject JWT的主题",
- * "exp": "Expiration Time JWT的过期时间",
- * "nbf": "Not Before 在xxx之间，该JWT都是可用的",
- * "iat": "Issued At 该JWT签发的时间",
- * "jti": "JWT ID JWT的唯一身份标识",
- * "xxx": "自定义属性"
- * }
- * <p>
- * 签名信息，该签名信息是通过header和payload，加上secret，通过算法加密生成，用于校验token防串改：
- * Signature  = 加密算法(header + "." + payload, 密钥)
- * <p>
- * 最终生成token 格式 base64(Header).base64(Payload).Signature
+ * 对Payload进行 AES 加密
  *
  * @author YuLc
  * @version 1.0.0
- * @date 2019/11/25
+ * @date 2019/11/28
  */
-public class JwtUtil {
+public class AesJwtUtil {
 
     /**
      * 签名秘钥
      */
     private static final String SECRET = "!@#$%YLC*&^%()95622SSxx";
+
+    /**
+     * aes 加密
+     * token中的信息加密
+     * 其中秘钥随机生成
+     * 所以每次系统重启后，之前加密的都会失效
+     */
+    private static final AES AES_ALGORITHM = SecureUtil.aes(SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue()).getEncoded());
 
     /**
      * 创建token
@@ -64,13 +50,17 @@ public class JwtUtil {
      * @return token
      */
     public static String createToken(JSONObject json) {
+        // 先进性AES加密
+        String aesPayload = AES_ALGORITHM.encryptHex(json.toString());
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             return JWT.create()
-                    .withSubject(json.toJSONString())
-                    .withIssuer("ylc")
-                    .withClaim("customString", "自定义参数")
-                    .withArrayClaim("customArray", new Integer[]{1, 2, 3})
+                    .withSubject(aesPayload)
+                    .withIssuer("AES")
+                    // 设置过期时间为昨天，校验的时候回不通过
+                    .withExpiresAt(DateUtil.yesterday())
+                    .withClaim("customString", "payload进行AES加密")
+                    .withArrayClaim("customArray", new String[]{"A", "E", "S"})
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
             //Invalid Signing configuration / Couldn't convert Claims.
@@ -88,16 +78,8 @@ public class JwtUtil {
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             JWTVerifier verifier = JWT.require(algorithm)
-                    // 验证签发人是否相同
-                    .withIssuer("ylc")
+                    .withIssuer("AES")
                     .build();
-            /*
-             * 校验：
-             * 格式校验：header.payload.signature
-             * 加密方式校验 Header中的alg
-             * 签名信息校验，防串改
-             * 载体Payload 中公有声明字段校验
-             */
             verifier.verify(token);
             return true;
         } catch (JWTVerificationException exception) {
@@ -106,7 +88,6 @@ public class JwtUtil {
             return false;
         }
     }
-
 
     /**
      * 解析token
@@ -117,16 +98,17 @@ public class JwtUtil {
         try {
             DecodedJWT jwt = JWT.decode(token);
             Map<String, Claim> claims = jwt.getClaims();
-            Claim customStringClaim = claims.get("customString");
             Claim customArrayClaim = claims.get("customArray");
+            Claim customStringClaim = claims.get("customString");
 
             String issuer = jwt.getIssuer();
-            String subject = jwt.getSubject();
+            // 进行解密
+            String subject = AES_ALGORITHM.decryptStr(jwt.getSubject());
 
+            System.out.println(Arrays.toString(customArrayClaim.asArray(String.class)));
             System.out.println(customStringClaim.asString());
-            System.out.println(Arrays.toString(customArrayClaim.asArray(Integer.class)));
             System.out.println(issuer);
-            System.out.println(JSONObject.parseObject(subject));
+            System.out.println(JSONUtil.parseObj(subject));
 
         } catch (JWTDecodeException exception) {
             //Invalid token
@@ -136,15 +118,17 @@ public class JwtUtil {
 
     public static void main(String[] args) {
         JSONObject subjectJson = new JSONObject();
-        subjectJson.put("userId", 9527);
-        subjectJson.put("name", "ylc");
+        subjectJson.put("userId", 8888);
+        subjectJson.put("name", "this is aes payload");
 
         String token = createToken(subjectJson);
         System.out.println("token:" + token);
+        System.out.println("==============================================");
 
-        verifyToke(token);
+        System.out.println("exp is yesterday verify result:" + verifyToke(token));
+        System.out.println("==============================================");
+
+        System.out.println("decode info:");
         decodeToken(token);
     }
-
-
 }

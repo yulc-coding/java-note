@@ -31,11 +31,11 @@
             <version>3.8.3</version>
         </dependency>
 
-        <!-- fast json -->
+        <!-- 工具类包 -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.62</version>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.0.3</version>
         </dependency>
 
         <dependency>
