@@ -44,7 +44,7 @@ import java.util.Map;
  * "xxx": "自定义属性"
  * }
  * <p>
- * 签名信息，该签名信息是通过header和payload，加上secret，通过算法加密生成，用于校验token防串改：
+ * 签名信息，该签名信息是通过header和payload，加上secret，通过算法加密生成，用于校验token防篡改：
  * Signature  = 加密算法(header + "." + payload, 密钥)
  * <p>
  * 最终生成token 格式 base64(Header).base64(Payload).Signature
@@ -68,6 +68,7 @@ public class NormalJwtUtil {
      */
     public static String createToken(JSONObject json) {
         try {
+            // 加密方式
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             return JWT.create()
                     .withSubject(json.toString())
@@ -100,7 +101,7 @@ public class NormalJwtUtil {
              * 校验：
              * 格式校验：header.payload.signature
              * 加密方式校验 Header中的alg
-             * 签名信息校验，防串改
+             * 签名信息校验，防篡改
              * 载体Payload 中公有声明字段校验
              */
             verifier.verify(token);

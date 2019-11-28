@@ -76,6 +76,7 @@ public class AesJwtUtil {
      */
     public static boolean verifyToke(String token) {
         try {
+            // 加密方式
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer("AES")
