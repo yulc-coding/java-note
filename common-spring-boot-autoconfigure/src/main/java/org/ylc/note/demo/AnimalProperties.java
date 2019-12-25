@@ -15,8 +15,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "animal")
 public class AnimalProperties {
 
+    /**
+     * 类别
+     */
     private String type = "animal";
 
+    /**
+     * 名称
+     */
     private String name;
 
     private final Fish fish = new Fish();

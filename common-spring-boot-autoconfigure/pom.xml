@@ -1,46 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.ylc.note</groupId>
-  <artifactId>common-spring-boot-autoconfigure</artifactId>
-  <version>1.0-SNAPSHOT</version>
+    <groupId>org.ylc.note</groupId>
+    <artifactId>common-spring-boot-autoconfigure</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
-  <name>common-spring-boot-autoconfigure</name>
+    <name>common-spring-boot-autoconfigure</name>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
-  <dependencies>
-    <!-- Spring Boot自身的自动配置 -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-autoconfigure</artifactId>
-      <version>2.2.2.RELEASE</version>
-    </dependency>
+    <dependencies>
+        <!-- Spring Boot自身的自动配置 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>2.2.2.RELEASE</version>
+        </dependency>
 
-    <!--
-    @ConfigurationProperties annotation processing (metadata for IDEs)
-        生成spring-configuration-metadata.json类，需要引入此类
-    -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-autoconfigure-processor</artifactId>
-      <version>2.2.2.RELEASE</version>
-      <optional>true</optional>
-    </dependency>
+        <!--
+            打包时会检查@ConfigurationProperties注解下的类，
+            在META-INF下自动生成spring-configuration-metadata.json文件
+            该文件供用户在IDE里填写application.properties或application.yml时起提示作用。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>2.2.2.RELEASE</version>
+            <optional>true</optional>
+        </dependency>
 
-    <!-- https://github.com/jpush/jpush-api-java-client -->
-    <dependency>
-      <groupId>cn.jpush.api</groupId>
-      <artifactId>jpush-client</artifactId>
-      <version>3.4.3</version>
-    </dependency>
-  </dependencies>
+        <!--
+            在META-INF下自动生成spring-autoconfigure-metadata.properties文件，
+            供AutoConfigurationImportSelector过滤加载
+         -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure-processor</artifactId>
+            <version>2.2.2.RELEASE</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- https://github.com/jpush/jpush-api-java-client -->
+        <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jpush-client</artifactId>
+            <version>3.4.3</version>
+        </dependency>
+    </dependencies>
 
 </project>
