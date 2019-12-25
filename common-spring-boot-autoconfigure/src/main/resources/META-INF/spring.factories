@@ -1,1 +1,3 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.ylc.note.jpush.JPushAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.ylc.note.demo.AnimalAutoConfiguration,\
+  org.ylc.note.jpush.JPushAutoConfiguration

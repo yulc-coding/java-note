@@ -2,6 +2,7 @@ package org.ylc.note.jpush;
 
 import cn.jiguang.common.ServiceHelper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,7 @@ public class JPushAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(JPushService.class)
     public JPushService jPushService() {
         String autoCode = ServiceHelper.getBasicAuthorization(jPushProperties.getAppKey(), jPushProperties.getMasterSecret());
         return new JPushService(autoCode);
