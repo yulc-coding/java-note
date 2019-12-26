@@ -17,9 +17,12 @@ public class AnimalService {
     }
 
     public void doing() {
-        System.out.println("/n this is animal service");
+        System.out.println("this is animal service");
         System.out.println("type:" + animalProperties.getType());
         System.out.println("name:" + animalProperties.getName());
+        System.out.println("bird:" + animalProperties.getBird().getDoing());
+        System.out.println("fish:" + animalProperties.getFish().getDoing());
+        System.out.println("\n");
     }
 
 }

@@ -27,7 +27,7 @@ public class AnimalProperties {
 
     private final Fish fish = new Fish();
 
-    private final bird bird = new bird();
+    private final Bird bird = new Bird();
 
     public static class Fish {
 
@@ -42,7 +42,7 @@ public class AnimalProperties {
         }
     }
 
-    public static class bird {
+    public static class Bird {
 
         private String doing;
 
@@ -75,7 +75,7 @@ public class AnimalProperties {
         return fish;
     }
 
-    public AnimalProperties.bird getBird() {
+    public Bird getBird() {
         return bird;
     }
 }

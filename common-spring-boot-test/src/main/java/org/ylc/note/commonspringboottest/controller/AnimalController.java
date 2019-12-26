@@ -3,6 +3,7 @@ package org.ylc.note.commonspringboottest.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.ylc.note.demo.AnimalService;
 import org.ylc.note.demo.BirdService;
 import org.ylc.note.demo.FishService;
 
@@ -16,18 +17,20 @@ import org.ylc.note.demo.FishService;
  * @version 1.0.0
  * @date 2019-12-25
  */
-
 @RestController
 @RequestMapping("/animal")
 public class AnimalController {
 
-    private final FishService fishService;
+    private final AnimalService animalService;
 
     private final BirdService birdService;
 
-    public AnimalController(FishService fishService, BirdService birdService) {
-        this.fishService = fishService;
+    private final FishService fishService;
+
+    public AnimalController(AnimalService animalService, BirdService birdService, FishService fishService) {
+        this.animalService = animalService;
         this.birdService = birdService;
+        this.fishService = fishService;
     }
 
     @GetMapping("/fish")
@@ -36,10 +39,15 @@ public class AnimalController {
         return "fish";
     }
 
+    @GetMapping("/")
+    public String animal() {
+        animalService.doing();
+        return "animal";
+    }
+
     @GetMapping("/bird")
     public String bird() {
         birdService.doing();
         return "bird";
     }
-
 }

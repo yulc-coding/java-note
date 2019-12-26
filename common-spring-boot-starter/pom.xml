@@ -15,13 +15,11 @@
     </properties>
 
     <dependencies>
+        <!-- 引入autoconfigure -->
         <dependency>
             <groupId>org.ylc.note</groupId>
             <artifactId>common-spring-boot-autoconfigure</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
-
-
 </project>
