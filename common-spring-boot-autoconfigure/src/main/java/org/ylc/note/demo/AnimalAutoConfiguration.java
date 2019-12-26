@@ -31,11 +31,18 @@ public class AnimalAutoConfiguration {
     @Autowired
     private AnimalProperties animalProperties;
 
+
+    /**
+     * 当容器中没有这个Bean时才注入
+     */
+    @Bean
+    @ConditionalOnMissingBean(AnimalService.class)
+    public AnimalService animalService() {
+        return new AnimalService(animalProperties);
+    }
+
     /**
      * 只有满足当FishEnvironmentCondition.matches 返回true时才实例化FishService
-     * 当容器中没有这个Bean时才注入
-     *
-     * @return FishService
      */
     @Bean
     @Conditional(FishEnvironmentCondition.class)
@@ -45,9 +52,7 @@ public class AnimalAutoConfiguration {
     }
 
     /**
-     * BirdEnvironmentCondition.matches BirdService
-     *
-     * @return BirdService
+     * 只有满足当BirdEnvironmentCondition.matches 返回true时才实例化BirdService
      */
     @Bean
     @Conditional(BirdEnvironmentCondition.class)

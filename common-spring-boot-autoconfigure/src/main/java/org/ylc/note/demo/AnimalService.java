@@ -6,20 +6,20 @@ package org.ylc.note.demo;
  *
  * @author YuLc
  * @version 1.0.0
- * @date 2019/12/25
+ * @date 2019/12/26
  */
-public class FishService {
+public class AnimalService {
 
     private AnimalProperties animalProperties;
 
-    public FishService(AnimalProperties animalProperties) {
+    public AnimalService(AnimalProperties animalProperties) {
         this.animalProperties = animalProperties;
     }
 
     public void doing() {
-        System.out.println("/n this is fish service");
+        System.out.println("/n this is animal service");
         System.out.println("type:" + animalProperties.getType());
         System.out.println("name:" + animalProperties.getName());
-        System.out.println("doing:" + animalProperties.getFish().getDoing());
     }
+
 }
