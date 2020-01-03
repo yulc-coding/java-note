@@ -21,6 +21,9 @@ public class NoticeListener implements ApplicationListener<NoticeEvent> {
 
     private static final Logger logger = LoggerFactory.getLogger(NoticeListener.class);
 
+    /**
+     * 注解 @Async 表明改方法使用异步执行
+     */
     @Async
     @Override
     public void onApplicationEvent(NoticeEvent noticeEvent) {

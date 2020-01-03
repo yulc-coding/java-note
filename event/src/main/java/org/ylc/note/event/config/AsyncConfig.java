@@ -16,6 +16,7 @@ import java.util.concurrent.Executor;
  * 注释不规范，同事泪两行
  * <p>
  * 配置异步支持
+ * 注解 @EnableAsync表明启用异步方法执行功能
  *
  * @author YuLc
  * @version 1.0.0
@@ -23,12 +24,12 @@ import java.util.concurrent.Executor;
  */
 @Configuration
 @EnableAsync
-public class AsyncEventConfig implements AsyncConfigurer {
+public class AsyncConfig implements AsyncConfigurer {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     /**
-     * 自定义线程池，若不重写会使用默认的线程池
+     * 自定义异步线程池，若不重写会使用默认的线程池
      */
     @Override
     public Executor getAsyncExecutor() {
@@ -39,7 +40,8 @@ public class AsyncEventConfig implements AsyncConfigurer {
         taskExecutor.setMaxPoolSize(10);
         // 队列大小
         taskExecutor.setQueueCapacity(15);
-        taskExecutor.setThreadNamePrefix("async-thread");
+        // 线程名的前缀
+        taskExecutor.setThreadNamePrefix("async-thread-");
         taskExecutor.initialize();
         return taskExecutor;
     }
