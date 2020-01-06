@@ -1,5 +1,8 @@
 # 基于JWT（JSON Web Token）的token身份验证
 
+### 详细介绍
+[基于JWT（JSON Web Token）的token身份验证](https://juejin.im/post/5ddf7f5ff265da05df4fbd1f)
+
 ### 格式：
 * Header 头信息
 ```

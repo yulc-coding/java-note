@@ -1,5 +1,8 @@
 # Spring Boot 使用 log4j2 记录日志
 
+### 详细介绍
+[Spring Boot Log4j2 日志简单使用](https://juejin.im/post/5dccb7a0518825599c24769e)
+
 > Spring Boot 默认使用 **Logback** 作为日志框架，所以使用时需要去除对 **Logback** 的依赖  
 > 如果需要实现异步日志，需要引入 LMAXDisruptor 
 

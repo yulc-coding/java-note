@@ -1,4 +1,8 @@
 # Spring Boot 使用 Logback 记录日志
+
+## 详细介绍
+[Spring Boot Logback 日志简单使用](https://juejin.im/post/5dca73cef265da4d4b5ff30f)
+
 ## 功能点
 * 按日志级别生成文件
 

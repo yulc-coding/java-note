@@ -1,5 +1,8 @@
 # 事件Event
 
+### 详细介绍
+[Spring Boot 实现异步事件Event](https://juejin.im/post/5e0df527e51d4540e63d844e)
+
 ### 定义事件类
 继承 ApplicationEvent
 
