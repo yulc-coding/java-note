@@ -8,8 +8,8 @@
 <div id="message"></div>
 </body>
 <script>
+    // 模拟请求接口，每3秒请求一次
     setInterval(function () {
-            // 模拟请求接口
             setMessageInnerHTML(new Date().getTime());
         },
         3000

@@ -24,6 +24,9 @@ import java.util.List;
 @RequestMapping("/sse")
 public class SseEmitterController {
 
+    /**
+     * 用于创建连接
+     */
     @GetMapping("/connect/{userId}")
     public SseEmitter connect(@PathVariable String userId) {
         return SseEmitterServer.connect(userId);
