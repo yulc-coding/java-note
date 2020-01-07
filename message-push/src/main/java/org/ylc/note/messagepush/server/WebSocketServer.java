@@ -1,4 +1,4 @@
-package org.ylc.note.messagepush.websocket;
+package org.ylc.note.messagepush.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,9 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 代码全万行，注释第一行
@@ -28,9 +30,14 @@ public class WebSocketServer {
     private final static Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
 
     /**
+     * 当前连接数
+     */
+    private static AtomicInteger count = new AtomicInteger(0);
+
+    /**
      * 使用map对象，便于根据userId来获取对应的WebSocket，或者放redis里面
      */
-    private static ConcurrentHashMap<String, WebSocketServer> websocketMap = new ConcurrentHashMap<>();
+    private static Map<String, WebSocketServer> websocketMap = new ConcurrentHashMap<>();
 
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -51,6 +58,8 @@ public class WebSocketServer {
             this.session = session;
             this.userId = userId;
             websocketMap.put(userId, this);
+            // 数量+1
+            count.getAndIncrement();
             logger.info("websocket 新连接：{}", userId);
         } catch (Exception e) {
             logger.error("websocket 新建连接 IO异常");
@@ -64,6 +73,8 @@ public class WebSocketServer {
     public void onClose() {
         // 删除
         websocketMap.remove(this.userId);
+        // 数量-1
+        count.getAndDecrement();
         logger.info("close websocket : {}", this.userId);
     }
 
@@ -81,6 +92,8 @@ public class WebSocketServer {
     public void onError(Throwable error) {
         logger.info("websocket 发生错误,移除当前websocket:{},err:{}", this.userId, error.getMessage());
         websocketMap.remove(this.userId);
+        // 数量-1
+        count.getAndDecrement();
     }
 
     /**
@@ -95,22 +108,20 @@ public class WebSocketServer {
     /**
      * 向指定用户发送信息
      *
+     * @param userId 用户id
      * @param wsInfo 信息
-     * @param uId    用户id
      */
-    public static void sendInfo(String wsInfo, String uId) {
-        if (websocketMap.containsKey(uId)) {
-            websocketMap.get(uId).sendMessage(wsInfo);
+    public static void sendInfo(String userId, String wsInfo) {
+        if (websocketMap.containsKey(userId)) {
+            websocketMap.get(userId).sendMessage(wsInfo);
         }
     }
 
     /**
-     * 群发自定义消息
+     * 群发消息
      */
     public static void batchSendInfo(String wsInfo, List<String> ids) {
-        for (String userId : ids) {
-            sendInfo(wsInfo, userId);
-        }
+        ids.forEach(userId -> sendInfo(userId, wsInfo));
     }
 
     /**
@@ -127,5 +138,10 @@ public class WebSocketServer {
         return new ArrayList<>(websocketMap.keySet());
     }
 
-
+    /**
+     * 获取当前连接数量
+     */
+    public static int getUserCount() {
+        return count.intValue();
+    }
 }

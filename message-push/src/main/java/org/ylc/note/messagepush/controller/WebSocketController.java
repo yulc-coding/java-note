@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.ylc.note.messagepush.websocket.WebSocketServer;
+import org.ylc.note.messagepush.server.WebSocketServer;
 
 import java.util.List;
 
@@ -18,26 +18,29 @@ import java.util.List;
  * @date 2020-01-06
  */
 @RestController
-@RequestMapping("/message")
-public class MessageController {
+@RequestMapping("/ws")
+public class WebSocketController {
 
-    /**
-     * 获取用户列表
-     */
-    @GetMapping("/ws/list")
+    @GetMapping("/list")
     public ResponseEntity<List<String>> list() {
         return ResponseEntity.ok(WebSocketServer.getIds());
     }
 
-    @GetMapping("/ws/push/{message}")
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getUserCount() {
+        return ResponseEntity.ok(WebSocketServer.getUserCount());
+    }
+
+    @GetMapping("/push/{message}")
     public ResponseEntity<String> push(@PathVariable(name = "message") String message) {
         WebSocketServer.batchSendInfo(message);
         return ResponseEntity.ok("WebSocket 推送消息给所有人");
     }
 
-    @GetMapping("/ws/pushTag/{userId}/{message}")
-    public ResponseEntity<String> pushTag(@PathVariable(name = "userId") String userId, @PathVariable(name = "message") String message) {
-        WebSocketServer.sendInfo(message, userId);
+    @GetMapping("/pushTag/{userId}/{message}")
+    public ResponseEntity<String> pushTag(@PathVariable(name = "userId") String userId,
+                                          @PathVariable(name = "message") String message) {
+        WebSocketServer.sendInfo(userId, message);
         return ResponseEntity.ok("WebSocket 推送消息给：" + userId);
     }
 
