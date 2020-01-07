@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮询</title>
+</head>
+<body>
+<div id="message"></div>
+</body>
+<script>
+    setInterval(function () {
+            // 模拟请求接口
+            setMessageInnerHTML(new Date().getTime());
+        },
+        3000
+    );
+
+    //将消息显示在网页上
+    function setMessageInnerHTML(innerHTML) {
+        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+    }
+</script>
+
+</html>
