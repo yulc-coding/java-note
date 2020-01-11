@@ -1,0 +1,41 @@
+# 可以通过 Config.fromYAML 实现配置
+# 官方：https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95#26-%E5%8D%95redis%E8%8A%82%E7%82%B9%E6%A8%A1%E5%BC%8F
+singleServerConfig:
+  # 连接空闲超时，单位：毫秒，默认10000
+  idleConnectionTimeout: 10000
+  pingTimeout: 1000
+  # 连接超时，单位：毫秒，默认10000
+  connectTimeout: 10000
+  # 命令等待超时，单位：毫秒，默认3000
+  timeout: 3000
+  # 命令失败重试次数，默认3
+  retryAttempts: 3
+  # 命令重试发送时间间隔，单位：毫秒，默认1500
+  retryInterval: 1500
+  # 当与某个节点的连接断开时，等待与其重新建立连接的时间间隔，单位：毫秒，默认3000
+  reconnectionTimeout: 3000
+  # 某个节点连续执行失败最大次数，将被从可用节点中移除
+  failedAttempts: 3
+  password: null
+  # 每个连接的最大订阅数量，默认5
+  subscriptionsPerConnection: 5
+  # 客户端名称
+  clientName: null
+  address: "redis://127.0.0.1:6379"
+  # 发布和订阅连接的最小空闲连接数，默认1
+  subscriptionConnectionMinimumIdleSize: 1
+  # 发布和订阅连接池大小，默认50
+  subscriptionConnectionPoolSize: 50
+  # 最小空闲连接数（长连接），默认32
+  connectionMinimumIdleSize: 32
+  # 连接池大小，默认64
+  connectionPoolSize: 64
+  database: 0
+  # 是否启用DNS监测，默认false
+  dnsMonitoring: false
+  # DNS监测时间间隔，单位：毫秒，默认5000
+  dnsMonitoringInterval: 5000
+# 线程池数量，默认值: 当前处理核数量 * 2
+threads: 0
+# Netty线程池数量 默认值: 当前处理核数量 * 2
+nettyThreads: 0

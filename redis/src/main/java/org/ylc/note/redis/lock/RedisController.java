@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -24,9 +25,9 @@ public class RedisController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final String GOODS_KEY = "goodsKey";
+    private static final String PRODUCT_KEY = "productKey";
 
-    private static final String LOCK_KEY = "testLock";
+    private static final String LOCK_KEY = "redisLock";
 
     @Autowired
     private RedisLock redisLock;
@@ -38,28 +39,31 @@ public class RedisController {
     public void lockTest() throws InterruptedException {
         // 用户唯一标识
         String lockValue = UUID.randomUUID().toString().replace("-", "");
+        Random random = new Random();
+        int sleepTime;
         while (true) {
             if (redisLock.tryLock(LOCK_KEY, lockValue)) {
                 logger.info("[{}]成功获取锁", lockValue);
                 break;
             }
-            logger.info("[{}]获取锁失败，200毫秒后重新尝试获取锁", lockValue);
-            Thread.sleep(200);
+            sleepTime = random.nextInt(1000);
+            Thread.sleep(sleepTime);
+            logger.info("[{}]获取锁失败，{}毫秒后重新尝试获取锁", lockValue, sleepTime);
         }
         // 剩余库存
-        String goods = stringRedisTemplate.opsForValue().get(GOODS_KEY);
-        if (goods == null) {
+        String products = stringRedisTemplate.opsForValue().get(PRODUCT_KEY);
+        if (products == null) {
             logger.info("[{}]获取剩余库存失败，释放锁：{} @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", lockValue, redisLock.unLock(LOCK_KEY, lockValue));
             return;
         }
-        int surplus = Integer.parseInt(goods);
+        int surplus = Integer.parseInt(products);
         if (surplus <= 0) {
             logger.info("[{}]库存不足，释放锁：{} ##########################################", lockValue, redisLock.unLock(LOCK_KEY, lockValue));
             return;
         }
 
         logger.info("[{}]当前库存[{}]，操作：库存-1", lockValue, surplus);
-        stringRedisTemplate.opsForValue().decrement(GOODS_KEY);
+        stringRedisTemplate.opsForValue().decrement(PRODUCT_KEY);
         logger.info("[{}]操作完成，开始释放锁，释放结果：{}", lockValue, redisLock.unLock(LOCK_KEY, lockValue));
     }
 }
