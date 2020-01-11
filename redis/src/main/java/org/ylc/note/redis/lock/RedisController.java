@@ -2,7 +2,6 @@ package org.ylc.note.redis.lock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,11 +28,14 @@ public class RedisController {
 
     private static final String LOCK_KEY = "redisLock";
 
-    @Autowired
-    private RedisLock redisLock;
+    private final RedisLock redisLock;
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
+
+    public RedisController(RedisLock redisLock, StringRedisTemplate stringRedisTemplate) {
+        this.redisLock = redisLock;
+        this.stringRedisTemplate = stringRedisTemplate;
+    }
 
     @GetMapping("/lock")
     public void lockTest() throws InterruptedException {

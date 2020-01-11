@@ -5,7 +5,6 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +28,11 @@ public class RedissonController {
 
     private static final String LOCK_KEY = "redissonLock";
 
-    @Autowired
-    private RedissonClient redissonClient;
+    private final RedissonClient redissonClient;
+
+    public RedissonController(RedissonClient redissonClient) {
+        this.redissonClient = redissonClient;
+    }
 
     @RequestMapping("/lock")
     public void lock() {
