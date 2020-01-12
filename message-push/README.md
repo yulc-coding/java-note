@@ -1,5 +1,8 @@
 # Spring Boot 消息实时推送
 
+### 详细介绍
+[Spring Boot 消息推送之 WebSocket和SseEmitter](https://juejin.im/post/5e0f31595188253ab60d9699)
+
 ### websocket
 双向通讯
 * 注入`ServerEndpointExporter`
