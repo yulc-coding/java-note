@@ -1,4 +1,4 @@
-package org.ylc.note.redis.lock;
+package org.ylc.note.redis.lock.controller;
 
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RLock;

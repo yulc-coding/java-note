@@ -38,17 +38,29 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
 
-        <!-- redisson -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!--
+            redisson 实现分布式锁，依赖：
+            spring-boot-starter-web
+            spring-boot-starter-data-redis
+            通过 netty 实现连接池
+        -->
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>3.12.0</version>
         </dependency>
 
+        <!-- Java工具包 -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.1.1</version>
         </dependency>
 
         <dependency>

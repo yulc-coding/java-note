@@ -1,4 +1,4 @@
-package org.ylc.note.redis.config;
+package org.ylc.note.redis.lock.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
@@ -37,9 +37,6 @@ public class RedissonConfig {
      */
     @Bean
     public RedissonClient redissonClient() {
-        System.out.println(host);
-        System.out.println(port);
-        System.out.println(database);
         Config config = new Config();
         config.useSingleServer()
                 .setAddress(String.format("redis://%s:%s", host, port))
