@@ -8,7 +8,6 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * 代码千万行，注释第一行，
@@ -44,14 +43,12 @@ public class RedisConfig {
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
 
         // 使用StringRedisSerializer来序列化和反序列化redis的key值
-        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-        // key
-        redisTemplate.setKeySerializer(redisSerializer);
-        redisTemplate.setHashKeySerializer(redisSerializer);
+        redisTemplate.setKeySerializer(RedisSerializer.string());
+        redisTemplate.setHashKeySerializer(RedisSerializer.string());
         // value
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
