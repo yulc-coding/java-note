@@ -1,3 +1,5 @@
+![](https://github.com/yulc-coding/java-note/blob/master/QR_code.png)
+
 ## 分布式锁
 ### 详细介绍
 [Redis —— 分布式锁](https://juejin.im/post/5e1977dd6fb9a02fbb76e8eb)
