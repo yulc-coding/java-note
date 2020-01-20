@@ -22,7 +22,6 @@ public class CustomHealthIndicator implements HealthIndicator {
         if (check()) {
             return Health.up().build();
         }
-        Health.status("9");
         return Health.down().withDetail("Error Code", -1).build();
     }
 
