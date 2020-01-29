@@ -37,6 +37,8 @@ public class RedisService {
         return stringRedisTemplate.keys(pattern);
     }
 
+    /* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ bitMaps ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+
     /**
      * 设置指定位的值
      *
@@ -105,6 +107,8 @@ public class RedisService {
         return stringRedisTemplate.execute((RedisCallback<Long>) con -> con.bitOp(op, destKey.getBytes(), bytes));
     }
 
+    /* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ HyperLogLog ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+
     /**
      * 对符合指定格式的key值进行未操作
      *
@@ -127,4 +131,37 @@ public class RedisService {
         }
         return stringRedisTemplate.execute((RedisCallback<Long>) con -> con.bitOp(op, destKey.getBytes(), bytes));
     }
+
+    /**
+     * 将指定的元素添加到HyperLogLog中
+     *
+     * @param key   key
+     * @param value 指定的元素
+     */
+    public void pfAdd(String key, String... value) {
+        stringRedisTemplate.opsForHyperLogLog().add(key, value);
+    }
+
+    /**
+     * 获取统计数
+     * <p>
+     * 当一次统计多个HyperLogLog时，会将并集的结果放入一个临时的HyperLogLog，性能不高，谨慎使用
+     *
+     * @param key 需要统计的key
+     * @return 数量，如果key不存在，返回0
+     */
+    public Long pfCount(String... key) {
+        return stringRedisTemplate.opsForHyperLogLog().size(key);
+    }
+
+    /**
+     * 将多个HyperLogLog进行合并，将结果存到一个指定的key中
+     *
+     * @param destKey   指定的key
+     * @param sourceKey 需要合并的key
+     */
+    public void pfMerge(String destKey, String... sourceKey) {
+        stringRedisTemplate.opsForHyperLogLog().union(destKey, sourceKey);
+    }
+
 }
