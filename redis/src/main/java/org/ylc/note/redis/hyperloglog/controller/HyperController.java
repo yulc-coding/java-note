@@ -1,9 +1,9 @@
-package org.ylc.note.redis.hyperloglog;
+package org.ylc.note.redis.hyperloglog.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.ylc.note.redis.bit.service.RedisService;
+import org.ylc.note.redis.service.RedisService;
 
 import java.util.Random;
 
@@ -58,5 +58,6 @@ public class HyperController {
         System.out.printf("hhl:4 -> count: %d, rate: %f\n", e, (10000 - e) * 1.00 / 100);
         return "success";
     }
+
 
 }

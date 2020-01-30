@@ -1,4 +1,4 @@
-package org.ylc.note.redis.bit.service;
+package org.ylc.note.redis.service;
 
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;
@@ -36,6 +36,24 @@ public class RedisService {
     public Set<String> getKeys(String pattern) {
         return stringRedisTemplate.keys(pattern);
     }
+
+
+    /* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ String ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+
+    /**
+     * 获取指定key的值
+     */
+    public String get(String key) {
+        return stringRedisTemplate.opsForValue().get(key);
+    }
+
+    /**
+     * 指定key的数值执行原子的加1操作
+     */
+    public void incr(String key) {
+        stringRedisTemplate.opsForValue().increment(key);
+    }
+
 
     /* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ bitMaps ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */
 
@@ -145,7 +163,7 @@ public class RedisService {
     /**
      * 获取统计数
      * <p>
-     * 当一次统计多个HyperLogLog时，会将并集的结果放入一个临时的HyperLogLog，性能不高，谨慎使用
+     * 当一次统计多个HyperLogLog时，需要对多个HyperLogLog结构进行比较并将并集的结果放入一个临时的HyperLogLog，性能不高，谨慎使用
      *
      * @param key 需要统计的key
      * @return 数量，如果key不存在，返回0
@@ -155,7 +173,7 @@ public class RedisService {
     }
 
     /**
-     * 将多个HyperLogLog进行合并，将结果存到一个指定的key中
+     * 将多个HyperLogLog进行合并，将并集的结果放入一个指定的HyperLogLog中
      *
      * @param destKey   指定的key
      * @param sourceKey 需要合并的key
