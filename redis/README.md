@@ -6,3 +6,5 @@
 
 ## [位图](https://github.com/yulc-coding/java-note/tree/master/redis/src/main/java/org/ylc/note/redis/bit)
 
+## [HyperLogLog](https://github.com/yulc-coding/java-note/tree/master/redis/src/main/java/org/ylc/note/redis/hyperloglog)
+

@@ -1,6 +1,10 @@
 ![](https://github.com/yulc-coding/java-note/blob/master/QR_code.png)
 
 ## 基数统计：HyperLogLog
+
+### 详细介绍
+[Redis —— 基数统计：HyperLogLog](https://juejin.im/post/5e148a6ee51d4540ef70a9dd)
+
 ### 简介
 `HyperLogLog`是`Redis`中的高级数据结构，它主要用于对海量数据（可以统计**2^64**个数据）做基数统计（去重统计数量）。它的特点是速度快，占用空间小（**12KB**）。但是计算存会在误差，标准误差为**0.81%**。`HyperLogLog`只会根据输入元素来计算基数，而不会储存输入元素本身，所以他并不能判断给定的元素是否已经存在了。
 
