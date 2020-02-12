@@ -69,6 +69,14 @@
             <version>5.1.1</version>
         </dependency>
 
+        <!-- bloomFilter  -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.2-jre</version>
+            <!--<type>bundle</type>-->
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
