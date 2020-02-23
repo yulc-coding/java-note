@@ -6,6 +6,8 @@
     debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
 -->
 <configuration debug="false">
+    <!-- 引入配置参数，需要配置在bootstrap.yml才行   -->
+    <springProperty scop="context" name="appName" source = "spring.application.name"/>
     <!--定义日志文件的存储地址 不要配置相对路径 (本地开发可以用./logs) -->
     <property name="LOG_HOME" value="./logs"/>
     <!--
