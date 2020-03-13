@@ -4,21 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
-        <relativePath/>
+        <groupId>org.ylc.note</groupId>
+        <artifactId>root</artifactId>
+        <version>1.0</version>
     </parent>
 
-    <groupId>org.ylc.note</groupId>
     <artifactId>redis</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Redis</name>
     <description>Redis相关内容</description>
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
 
     <dependencies>
 
@@ -59,21 +53,18 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
-            <version>3.12.0</version>
         </dependency>
 
         <!-- Java工具包 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.1.1</version>
         </dependency>
 
         <!-- bloomFilter  -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.2-jre</version>
             <!--<type>bundle</type>-->
         </dependency>
 
