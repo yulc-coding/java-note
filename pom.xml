@@ -14,9 +14,7 @@
         <module>log4j2</module>
         <module>aop</module>
         <module>jwt</module>
-        <module>common-spring-boot-autoconfigure</module>
-        <module>common-spring-boot-starter</module>
-        <module>common-spring-boot-test</module>
+        <module>custom-starter</module>
         <module>event</module>
         <module>message-push</module>
         <module>redis</module>

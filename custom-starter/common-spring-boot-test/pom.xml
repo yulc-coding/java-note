@@ -5,14 +5,16 @@
 
     <parent>
         <groupId>org.ylc.note</groupId>
-        <artifactId>root</artifactId>
-        <version>1.0</version>
+        <artifactId>custom-starter</artifactId>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>common-spring-boot-test</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>common-spring-boot-test</name>
-    <description>Demo project for Spring Boot</description>
+    <description>
+        自定义Starter测试项目，引入自定义的starter，测试业务逻辑
+    </description>
 
     <dependencies>
         <dependency>

@@ -5,14 +5,16 @@
 
     <parent>
         <groupId>org.ylc.note</groupId>
-        <artifactId>root</artifactId>
-        <version>1.0</version>
+        <artifactId>custom-starter</artifactId>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>common-spring-boot-autoconfigure</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>common-spring-boot-autoconfigure</name>
+    <description>
+        自动配置类，具体实现逻辑的类，包括了参数配置，按条件初始实例，具体逻辑
+    </description>
 
     <dependencies>
         <!-- Spring Boot自身的自动配置 -->

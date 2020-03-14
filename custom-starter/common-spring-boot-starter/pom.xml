@@ -5,15 +5,16 @@
 
     <parent>
         <groupId>org.ylc.note</groupId>
-        <artifactId>root</artifactId>
-        <version>1.0</version>
+        <artifactId>custom-starter</artifactId>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>common-spring-boot-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>common-spring-boot-starter</name>
-    <description>common-spring-boot-starter</description>
+    <description>
+        提供了对autoconfigure模块的依赖，本项目供为外部调用引用的jar包，没有具体业务。
+    </description>
 
     <dependencies>
         <!-- 引入autoconfigure -->

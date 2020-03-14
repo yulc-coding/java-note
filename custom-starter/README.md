@@ -13,4 +13,4 @@
 ### starter模块
 * 提供了对autoconfigure模块的依赖
 * 代码自动提示：spring-boot-configuration-processor
-* 顾虑加载：spring-boot-autoconfigure-processor
+* 过滤加载：spring-boot-autoconfigure-processor

@@ -1,6 +1,5 @@
 package org.ylc.note.demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -28,9 +27,11 @@ import org.springframework.context.annotation.Configuration;
 // @ConditionalOnProperty(prefix = "animal", value = "enable", matchIfMissing = true)
 public class AnimalAutoConfiguration {
 
-    @Autowired
-    private AnimalProperties animalProperties;
+    private final AnimalProperties animalProperties;
 
+    public AnimalAutoConfiguration(AnimalProperties animalProperties) {
+        this.animalProperties = animalProperties;
+    }
 
     /**
      * 当容器中没有这个Bean时才注入

@@ -33,16 +33,16 @@ public class AnimalController {
         this.fishService = fishService;
     }
 
-    @GetMapping("/fish")
-    public String fish() {
-        fishService.doing();
-        return "fish";
-    }
-
     @GetMapping("/")
     public String animal() {
         animalService.doing();
         return "animal";
+    }
+
+    @GetMapping("/fish")
+    public String fish() {
+        fishService.doing();
+        return "fish";
     }
 
     @GetMapping("/bird")
