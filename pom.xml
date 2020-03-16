@@ -19,6 +19,7 @@
         <module>message-push</module>
         <module>redis</module>
         <module>actuator</module>
+        <module>rabbit</module>
     </modules>
 
     <properties>
