@@ -20,6 +20,7 @@
         <module>redis</module>
         <module>actuator</module>
         <module>rabbit</module>
+        <module>freemarker</module>
     </modules>
 
     <properties>

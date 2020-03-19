@@ -1,0 +1,12 @@
+spring:
+  freemarker:
+    #后缀名
+    suffix: .ftl
+    content-type: text/html
+    #编码格式
+    charset: UTF-8
+    #缓存配置
+    cache: false
+    #模板加载路径 按需配置
+    template-loader-path: classpath:/templates/
+
