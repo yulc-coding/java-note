@@ -21,11 +21,8 @@ import org.ylc.note.nettyclient.handler.NettyClientHandler;
 public class NettyClient {
 
     public void connect(String host, int port) {
-
         EventLoopGroup group = new NioEventLoopGroup();
-
         try {
-
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(group)
                     .channel(NioSocketChannel.class)
@@ -46,6 +43,9 @@ public class NettyClient {
             // 优雅的退出，释放线程池资源
             group.shutdownGracefully();
         }
+    }
 
+    public static void main(String[] args) {
+        new NettyClient().connect("127.0.0.1", 8080);
     }
 }

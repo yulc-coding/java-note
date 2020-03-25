@@ -21,12 +21,10 @@ import org.ylc.note.nettyserver.handler.NettyServerHandler;
 public class NettyServer {
 
     public void bind(int port) {
-
         // 服务端接受客户端的连接
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         // 进行 SocketChannel 的网络读写
         EventLoopGroup workerGroup = new NioEventLoopGroup();
-
         try {
             // 启动 NIO 服务的引导类
             ServerBootstrap bootstrap = new ServerBootstrap();
@@ -34,7 +32,6 @@ public class NettyServer {
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 1024)
                     .childHandler(new ChildChannelHandler());
-
             // 绑定端口，同步等待成功。返回 ChannelFuture 用于异步操作的通知回调
             ChannelFuture future = bootstrap.bind(port).sync();
             // 等待服务监听端口关闭
@@ -46,7 +43,6 @@ public class NettyServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-
     }
 
     private static class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
@@ -56,4 +52,7 @@ public class NettyServer {
         }
     }
 
+    public static void main(String[] args) {
+        new NettyServer().bind(8080);
+    }
 }

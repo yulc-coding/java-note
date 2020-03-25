@@ -24,18 +24,18 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     private final ByteBuf message;
 
     public NettyClientHandler() {
-        byte[] req = "".getBytes();
+        byte[] req = "From Netty Client".getBytes();
         message = Unpooled.buffer(req.length);
         message.writeBytes(req);
     }
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    public void channelActive(ChannelHandlerContext ctx) {
         ctx.writeAndFlush(message);
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         ByteBuf buf = (ByteBuf) msg;
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
@@ -44,7 +44,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         logger.error(cause.getMessage());
         ctx.close();
     }
