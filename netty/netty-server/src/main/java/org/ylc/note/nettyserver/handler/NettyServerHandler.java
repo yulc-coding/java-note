@@ -22,15 +22,18 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private int counter;
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         ByteBuf buf = (ByteBuf) msg;
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
         String body = new String(req, StandardCharsets.UTF_8);
-        logger.info("msg:{}", body);
+        logger.info("server receive msg: [{}]; counter is [{}]", body, ++counter);
 
-        ByteBuf resp = Unpooled.copiedBuffer("from Netty Server".getBytes());
+        String respStr = "From Netty Client".equals(body) ? "From Netty Server" : "Error format";
+        ByteBuf resp = Unpooled.copiedBuffer(respStr.getBytes());
         ctx.writeAndFlush(resp);
     }
 
