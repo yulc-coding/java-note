@@ -8,8 +8,6 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.charset.StandardCharsets;
-
 /**
  * 代码全万行，注释第一行
  * 注释不规范，同事泪两行
@@ -26,20 +24,17 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ByteBuf buf = (ByteBuf) msg;
-        byte[] req = new byte[buf.readableBytes()];
-        buf.readBytes(req);
-        String body = new String(req, StandardCharsets.UTF_8);
+        // ByteBuf buf = (ByteBuf) msg;
+        // byte[] req = new byte[buf.readableBytes()];
+        // buf.readBytes(req);
+        // String body = new String(req, StandardCharsets.UTF_8);
+        String body = (String) msg;
         logger.info("server receive msg: [{}]; counter is [{}]", body, ++counter);
 
         String respStr = "From Netty Client".equals(body) ? "From Netty Server" : "Error format";
+        respStr = respStr + System.getProperty("line.separator");
         ByteBuf resp = Unpooled.copiedBuffer(respStr.getBytes());
         ctx.writeAndFlush(resp);
-    }
-
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
     }
 
     @Override

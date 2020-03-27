@@ -24,8 +24,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     private int counter;
 
     public NettyClientHandler() {
-        req = "From Netty Client".getBytes();
-
+        req = ("From Netty Client" + System.getProperty("line.separator")).getBytes();
     }
 
     @Override
