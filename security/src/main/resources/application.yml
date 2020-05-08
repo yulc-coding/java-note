@@ -1,3 +1,26 @@
 server:
   servlet:
     context-path: /demo
+
+spring:
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: 47.110.82.103
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: 2020Root!@#$
+    # 连接超时时间（毫秒）
+    timeout: 3000ms
+    lettuce:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 3000ms
+        # 连接池中的最大空闲连接（负数没有限制）
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 0

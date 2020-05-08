@@ -2,7 +2,7 @@ package org.ylc.note.security.util;
 
 import org.ylc.note.security.entity.User;
 
-import java.util.Map;
+import java.util.UUID;
 
 /**
  * 代码千万行，注释第一行，
@@ -16,21 +16,19 @@ import java.util.Map;
  */
 public class TokenUtil {
 
-
     /**
      * 根据用户生成token
      */
-    private String generateToken(Map<String, Object> info) {
-
-        return null;
+    public static String generateToken(User user) {
+        // 实际按照需要的业务生成token，这里模拟，返回随机数
+        return UUID.randomUUID().toString();
     }
 
     /**
      * 解析Token，返回用户信息
      */
-    private User ParseToken(String token) {
-
-
-        return null;
+    public static User ParseToken(String token) {
+        // 模拟解析token过程
+        return new User(0L, "admin", "123456");
     }
 }
