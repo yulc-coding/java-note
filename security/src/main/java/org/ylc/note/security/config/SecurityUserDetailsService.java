@@ -21,7 +21,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println(this.getClass());
+        System.out.println("根据用户名获取用户信息");
         User user = new User();
         return SecurityUserDetailsFactory.create(user);
     }

@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.ylc.note.security.filter.AuthenticationTokenFilter;
 
 /**
  * 代码千万行，注释第一行，
@@ -24,14 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
-        AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter();
-        authenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
-        return authenticationTokenFilter;
+        return new AuthenticationTokenFilter();
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        System.out.println(this.getClass());
+        System.out.println("进入configure");
         httpSecurity.authorizeRequests()
                 // 允许所有请求通过
                 .anyRequest().permitAll()
