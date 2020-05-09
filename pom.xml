@@ -22,7 +22,6 @@
         <module>rabbit</module>
         <module>freemarker</module>
         <module>netty</module>
-        <module>security</module>
     </modules>
 
     <properties>
