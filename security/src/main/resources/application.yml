@@ -1,6 +1,20 @@
-# \u7528\u6237\u53C2\u6570\u4FE1\u606F\uFF1A SecurityProperties.java
+# 配置用户信息 SecurityProperties.java
 spring:
   security:
     user:
       name: ylc
       password: 9527
+  datasource:
+    url: jdbc:mysql://localhost:3306/security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: root
+    password: admin2020!
+  jpa:
+    database: mysql
+    database-platform: mysql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
