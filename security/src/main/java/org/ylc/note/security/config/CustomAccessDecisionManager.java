@@ -16,7 +16,7 @@ import java.util.Collection;
  * 代码千万行，注释第一行，
  * 注释不规范，同事泪两行。
  * <p>
- * 访问控制
+ * 访问控制，决定谁可以访问那些资源
  *
  * @author YuLc
  * @version 1.0.0
@@ -27,12 +27,12 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
 
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-        for (ConfigAttribute ca : configAttributes) {
+        for (ConfigAttribute configAttribute : configAttributes) {
             //当前请求需要的权限
-            String needRole = ca.getAttribute();
+            String needRole = configAttribute.getAttribute();
             if ("ROLE_LOGIN".equals(needRole)) {
                 if (authentication instanceof AnonymousAuthenticationToken) {
-                    throw new BadCredentialsException("未登录");
+                    throw new BadCredentialsException("尚未登录，请登录!");
                 } else
                     return;
             }

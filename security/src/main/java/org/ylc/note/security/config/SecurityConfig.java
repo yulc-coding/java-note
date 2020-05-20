@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 注入自定义的验证逻辑
+     * 自定义访问者身份认证
      */
     @Bean
     MyAuthenticationProvider myAuthenticationProvider() {
@@ -91,6 +91,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/js/**", "/css/**", "/images/**");
     }
 
+    /**
+     * 对资源访问的规则进行重新定义
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         log.info("配置http规则");
