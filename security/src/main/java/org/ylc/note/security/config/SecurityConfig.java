@@ -64,11 +64,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * 自定义访问者身份认证
      */
     @Bean
-    MyAuthenticationProvider myAuthenticationProvider() {
-        MyAuthenticationProvider myAuthenticationProvider = new MyAuthenticationProvider();
-        myAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        myAuthenticationProvider.setUserDetailsService(userDetailsService());
-        return myAuthenticationProvider;
+    CustomAuthenticationProvider myAuthenticationProvider() {
+        CustomAuthenticationProvider customAuthenticationProvider = new CustomAuthenticationProvider();
+        customAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        customAuthenticationProvider.setUserDetailsService(userDetailsService());
+        return customAuthenticationProvider;
     }
 
     @Override
