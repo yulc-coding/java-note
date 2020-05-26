@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.ylc.note.security.service.UserService;
+import org.ylc.note.security.service.SecurityUserService;
 
 import java.util.Collections;
 
@@ -33,10 +33,10 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final SecurityUserService securityUserService;
 
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
+    public SecurityConfig(SecurityUserService securityUserService) {
+        this.securityUserService = securityUserService;
     }
 
     /**
@@ -82,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         log.info("配置用户相关验证");
-        auth.userDetailsService(userService);
+        auth.userDetailsService(securityUserService);
     }
 
     @Override
@@ -98,17 +98,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         log.info("配置http规则");
         http.authorizeRequests()
-                .antMatchers("/admin/**").hasRole("admin")
-                .antMatchers("/user/**").hasRole("user")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().permitAll()
-                .and()
-                .rememberMe()
-                // 自己设置密令后，即使服务器重启也能实现自动登录，该值默认为一个UUID字符串
-                .key("9527")
-                .and()
-                .csrf().disable()
+                .anyRequest().permitAll()
+        // .antMatchers("/admin/**").hasRole("admin")
+        // .antMatchers("/user/**").hasRole("user")
+        // .anyRequest().authenticated()
+        // .and()
+        // .formLogin().permitAll()
+        // .and()
+        // .rememberMe()
+        // // 自己设置密令后，即使服务器重启也能实现自动登录，该值默认为一个UUID字符串
+        // .key("9527")
+        // .and()
+        // .csrf().disable()
         ;
     }
 

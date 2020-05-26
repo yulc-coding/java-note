@@ -1,12 +1,12 @@
 package org.ylc.note.security.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.ylc.note.security.dao.UserDao;
-import org.ylc.note.security.entity.User;
+import org.ylc.note.security.mapper.SysUserMapper;
 
 /**
  * 代码千万行，注释第一行，
@@ -18,21 +18,14 @@ import org.ylc.note.security.entity.User;
  */
 @Slf4j
 @Service
-public class UserService implements UserDetailsService {
+public class SecurityUserService implements UserDetailsService {
 
-    private final UserDao userDao;
-
-    public UserService(UserDao userDao) {
-        this.userDao = userDao;
-    }
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("根据用户名【{}】获取用户信息", username);
-        User user = userDao.findUserByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("用户不存在");
-        }
-        return user;
+        return null;
     }
 }

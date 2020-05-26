@@ -1,20 +1,27 @@
 # 配置用户信息 SecurityProperties.java
 spring:
-  security:
-    user:
-      name: ylc
-      password: 9527
   datasource:
-    url: jdbc:mysql://localhost:3306/security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    url: jdbc:mysql://localhost:3306/security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
     username: root
     password: admin2020!
-  jpa:
-    database: mysql
-    database-platform: mysql
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # Hikari 连接池配置
+    hikari:
+      # 连接池名称
+      pool-name: HikariCP
+      # 连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count)
+      maximum-pool-size: 10
+      # 一空闲连接最大存户时间（毫秒），超时则被释放（retired），缺省:10分钟
+      idleTimeout: 600000
+      # 链接超时（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒
+      connectionTimeout: 30000
+      # 一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒，
+      # 参考MySQL wait_timeout参数（show variables like '%timeout%';）
+      maxLifetime: 1800000
+      connection-test-query: select 1
+mybatis:
+  type-aliases-package: org.ylc.note.security.entity
+  mapper-locations: classpath*:/mapper/**/*.xml
+# 分页配置
+pagehelper:
+  helper-dialect: mysql

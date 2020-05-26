@@ -56,6 +56,4 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
 
         return this.getAuthenticationManager().authenticate(authRequest);
     }
-
-
 }
