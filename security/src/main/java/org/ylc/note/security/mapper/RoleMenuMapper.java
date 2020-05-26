@@ -1,5 +1,5 @@
 package org.ylc.note.security.mapper;
 
-public interface SysRoleMapper {
+public interface RoleMenuMapper {
 
 }

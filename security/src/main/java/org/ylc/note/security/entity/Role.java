@@ -7,23 +7,13 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class SysUser {
+public class Role {
 
     private Integer id;
 
     private String name;
 
-    private String username;
-
-    private String password;
-
-    private String phone;
-
-    private String gender;
-
     private String remark;
-
-    private Byte enabled;
 
     private Integer createUser;
 

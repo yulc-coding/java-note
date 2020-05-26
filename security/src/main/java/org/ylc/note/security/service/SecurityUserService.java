@@ -1,12 +1,13 @@
 package org.ylc.note.security.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.ylc.note.security.mapper.SysUserMapper;
+import org.ylc.note.security.entity.SecurityUserDetails;
+import org.ylc.note.security.entity.User;
+import org.ylc.note.security.mapper.UserMapper;
 
 /**
  * 代码千万行，注释第一行，
@@ -20,12 +21,23 @@ import org.ylc.note.security.mapper.SysUserMapper;
 @Service
 public class SecurityUserService implements UserDetailsService {
 
-    @Autowired
-    private SysUserMapper sysUserMapper;
+    private final UserMapper userMapper;
+
+    public SecurityUserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("根据用户名【{}】获取用户信息", username);
-        return null;
+        User user = userMapper.loadUserByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("用户名不存在!");
+        }
+        SecurityUserDetails securityUserDetails = new SecurityUserDetails();
+        securityUserDetails.setUsername(user.getUsername());
+        securityUserDetails.setPassword(user.getPassword());
+        return securityUserDetails;
     }
+
 }

@@ -7,31 +7,23 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class SysMenu {
+public class User {
 
     private Integer id;
 
-    private Integer pid;
-
     private String name;
 
-    private String permission;
+    private String username;
 
-    private String type;
+    private String password;
 
-    private String url;
+    private String phone;
 
-    private String path;
-
-    private String component;
-
-    private String btnKey;
-
-    private String icon;
-
-    private Byte seq;
+    private String gender;
 
     private String remark;
+
+    private Byte enabled;
 
     private Integer createUser;
 

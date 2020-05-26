@@ -1,6 +1,7 @@
 package org.ylc.note.security.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -12,8 +13,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.ylc.note.security.handler.CustomAccessDeniedHandler;
+import org.ylc.note.security.handler.CustomAuthenticationFailureHandler;
+import org.ylc.note.security.handler.CustomAuthenticationSuccessHandler;
 import org.ylc.note.security.service.SecurityUserService;
 
 import java.util.Collections;
@@ -34,6 +39,15 @@ import java.util.Collections;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SecurityUserService securityUserService;
+
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     public SecurityConfig(SecurityUserService securityUserService) {
         this.securityUserService = securityUserService;
@@ -98,19 +112,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         log.info("配置http规则");
         http.authorizeRequests()
-                .anyRequest().permitAll()
-        // .antMatchers("/admin/**").hasRole("admin")
-        // .antMatchers("/user/**").hasRole("user")
-        // .anyRequest().authenticated()
-        // .and()
-        // .formLogin().permitAll()
-        // .and()
-        // .rememberMe()
-        // // 自己设置密令后，即使服务器重启也能实现自动登录，该值默认为一个UUID字符串
-        // .key("9527")
-        // .and()
-        // .csrf().disable()
-        ;
+                // .antMatchers("/admin/**").hasRole("admin")
+                // .antMatchers("/user/**").hasRole("user")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .successHandler(customAuthenticationSuccessHandler)
+                .failureHandler(customAuthenticationFailureHandler)
+                .permitAll()
+                .and()
+                // 关闭跨站请求防护
+                .csrf().disable()
+                // 前后端分离采用JWT 不需要session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
     }
 
 }

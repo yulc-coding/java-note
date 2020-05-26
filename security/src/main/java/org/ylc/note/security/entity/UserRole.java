@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SysUserRole {
+public class UserRole {
 
     private Integer id;
 

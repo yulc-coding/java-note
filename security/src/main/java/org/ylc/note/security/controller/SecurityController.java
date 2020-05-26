@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.ylc.note.security.common.HttpResult;
-import org.ylc.note.security.entity.SysUser;
-import org.ylc.note.security.mapper.SysUserMapper;
+import org.ylc.note.security.entity.User;
+import org.ylc.note.security.mapper.UserMapper;
 
 import java.util.List;
 
@@ -21,12 +21,12 @@ import java.util.List;
 public class SecurityController {
 
     @Autowired
-    private SysUserMapper sysUserMapper;
+    private UserMapper userMapper;
 
     @GetMapping("/list")
-    public HttpResult<List<SysUser>> userList(){
+    public HttpResult<List<User>> userList(){
 
-        return HttpResult.success(sysUserMapper.list());
+        return HttpResult.success(userMapper.list());
     }
 
     @GetMapping("/test")
