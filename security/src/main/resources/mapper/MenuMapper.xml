@@ -21,4 +21,19 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
 
+    <select id="getUserPermissions" resultType="java.lang.String">
+        SELECT
+            m.permission
+        FROM
+            sys_menu m
+        WHERE
+            m.id IN (
+            SELECT
+                menu_id
+            FROM
+                sys_role_menu rm
+            WHERE
+            rm.role_id IN ( SELECT role_id FROM sys_user_role ur WHERE ur.user_id = #{userId} ))
+    </select>
+
 </mapper>
