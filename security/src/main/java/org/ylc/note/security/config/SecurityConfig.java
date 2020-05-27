@@ -4,30 +4,27 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.ylc.note.security.handler.CustomAccessDeniedHandler;
-import org.ylc.note.security.handler.CustomAuthenticationFailureHandler;
-import org.ylc.note.security.handler.CustomAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.ylc.note.security.service.SecurityUserService;
-
-import java.util.Collections;
 
 /**
  * 代码全万行，注释第一行
  * 注释不规范，同事泪两行
  * <p>
  * 配置类
+ * <p>
+ * EnableGlobalMethodSecurity 开启注解的权限控制，默认是关闭的。
+ * prePostEnabled：使用表达式实现方法级别的控制，如：@PreAuthorize("hasRole('ADMIN')")
+ * securedEnabled: 开启 @Secured 注解过滤权限，如：@Secured("ROLE_ADMIN")
+ * jsr250Enabled: 开启 @RolesAllowed 注解过滤权限，如：@RolesAllowed("ROLE_ADMIN")
  *
  * @author YuLc
  * @version 1.0.0
@@ -47,7 +44,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    @Autowired
+    private CustomLogoutSuccessHandler customLogoutSuccessHandler;
+
+    @Autowired
+    private AuthorizationTokenFilter authorizationTokenFilter;
 
     public SecurityConfig(SecurityUserService securityUserService) {
         this.securityUserService = securityUserService;
@@ -58,36 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     PasswordEncoder passwordEncoder() {
-        log.info("配置密码不加密");
-        return NoOpPasswordEncoder.getInstance();
-    }
-
-    /**
-     * 配置角色继承
-     * 表示 ROLE_admin 自动具备 ROLE_user 的权限
-     */
-    @Bean
-    RoleHierarchy roleHierarchy() {
-        log.info("配置角色继承关系");
-        RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
-        hierarchy.setHierarchy("ROLE_admin > ROLE_user");
-        return hierarchy;
-    }
-
-    /**
-     * 自定义访问者身份认证
-     */
-    @Bean
-    CustomAuthenticationProvider myAuthenticationProvider() {
-        CustomAuthenticationProvider customAuthenticationProvider = new CustomAuthenticationProvider();
-        customAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        customAuthenticationProvider.setUserDetailsService(userDetailsService());
-        return customAuthenticationProvider;
-    }
-
-    @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return new ProviderManager(Collections.singletonList(myAuthenticationProvider()));
+        return new BCryptPasswordEncoder();
     }
 
     /**
@@ -95,14 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        log.info("配置用户相关验证");
         auth.userDetailsService(securityUserService);
-    }
-
-    @Override
-    public void configure(WebSecurity web) {
-        log.info("配置忽略校验路径");
-        web.ignoring().antMatchers("/js/**", "/css/**", "/images/**");
     }
 
     /**
@@ -111,21 +81,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         log.info("配置http规则");
+
         http.authorizeRequests()
-                // .antMatchers("/admin/**").hasRole("admin")
-                // .antMatchers("/user/**").hasRole("user")
-                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .and()
                 .formLogin()
                 .successHandler(customAuthenticationSuccessHandler)
                 .failureHandler(customAuthenticationFailureHandler)
                 .permitAll()
+
+                .and()
+                .logout()
+                .logoutSuccessHandler(customLogoutSuccessHandler)
+                .permitAll()
+
                 .and()
                 // 关闭跨站请求防护
                 .csrf().disable()
                 // 前后端分离采用JWT 不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
+        // 异常处理：认证失败和权限不足
+        http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint).accessDeniedHandler(customAccessDeniedHandler);
+        // 登录过滤器
+        http.addFilterAt(new CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        // Token认证过滤器
+        http.addFilterBefore(authorizationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 }

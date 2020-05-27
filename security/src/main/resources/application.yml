@@ -20,8 +20,15 @@ spring:
       maxLifetime: 1800000
       connection-test-query: select 1
 mybatis:
+  # 配置实体映射类所在包名
   type-aliases-package: org.ylc.note.security.entity
+  # 配置mapper xml文件所在路径，这里是一个数组
+  # classpath 只会到你的class路径中查找找文件;
+  # classpath* 不仅包含class路径，还包括jar文件中(class路径)进行查找
   mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    # 开启驼峰类型的命名规则
+    map-underscore-to-camel-case: true
 # 分页配置
 pagehelper:
   helper-dialect: mysql

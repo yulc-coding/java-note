@@ -1,4 +1,4 @@
-package org.ylc.note.security.handler;
+package org.ylc.note.security.config;
 
 import cn.hutool.json.JSONUtil;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -36,6 +36,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         } else {
             msg = "登录失败!";
         }
+        response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSONUtil.toJsonStr(HttpResult.fail(msg)));
     }
 

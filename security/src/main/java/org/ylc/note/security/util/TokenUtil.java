@@ -7,6 +7,8 @@ import cn.hutool.crypto.symmetric.SymmetricCrypto;
 /**
  * 代码千万行，注释第一行，
  * 注释不规范，同事泪两行。
+ * <p>
+ * 简单的Token操作类，也可以使用JWT去生成Token
  *
  * @author YuLc
  * @version 1.0.0
@@ -21,8 +23,8 @@ public class TokenUtil {
     /**
      * 生成Token
      */
-    public static String generator(String userId) {
-        return AES.encryptHex(userId);
+    public static String generator(String username) {
+        return AES.encryptHex(username);
     }
 
     /**

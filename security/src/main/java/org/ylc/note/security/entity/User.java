@@ -17,14 +17,6 @@ public class User {
 
     private String password;
 
-    private String phone;
-
-    private String gender;
-
-    private String remark;
-
-    private Byte enabled;
-
     private Integer createUser;
 
     private Date createTime;

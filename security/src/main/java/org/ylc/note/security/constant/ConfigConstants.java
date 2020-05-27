@@ -26,9 +26,9 @@ public class ConfigConstants {
          */
         public static final int ACCESS_RESTRICTED = 403;
         /**
-         * token过期，引导到登录界面
+         * 认证失败token过期、或者没有传token，引导到登录界面
          */
-        public static final int TOKEN_EXPIRED = 401;
+        public static final int AUTHENTICATION_FAIL = 401;
     }
 
 }

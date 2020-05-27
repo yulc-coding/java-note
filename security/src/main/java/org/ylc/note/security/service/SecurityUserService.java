@@ -1,7 +1,6 @@
 package org.ylc.note.security.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,10 +9,6 @@ import org.ylc.note.security.entity.SecurityUserDetails;
 import org.ylc.note.security.entity.User;
 import org.ylc.note.security.mapper.MenuMapper;
 import org.ylc.note.security.mapper.UserMapper;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 代码千万行，注释第一行，
@@ -49,10 +44,7 @@ public class SecurityUserService implements UserDetailsService {
 
         log.info("获取用户【{}】的权限", username);
         // 权限
-        List<String> permission = menuMapper.getUserPermissions(user.getId());
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        permission.forEach(o -> authorities.add(new SimpleGrantedAuthority(o)));
-        securityUserDetails.setAuthorities(authorities);
+        securityUserDetails.setPermissions(menuMapper.getUserPermissions(user.getId()));
         return securityUserDetails;
     }
 

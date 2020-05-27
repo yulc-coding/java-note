@@ -7,10 +7,6 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="CHAR" property="password"/>
-        <result column="phone" jdbcType="VARCHAR" property="phone"/>
-        <result column="gender" jdbcType="CHAR" property="gender"/>
-        <result column="remark" jdbcType="VARCHAR" property="remark"/>
-        <result column="enabled" jdbcType="TINYINT" property="enabled"/>
         <result column="create_user" jdbcType="INTEGER" property="createUser"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
