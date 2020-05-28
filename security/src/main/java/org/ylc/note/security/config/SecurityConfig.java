@@ -67,8 +67,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    CustomUsernamePasswordAuthenticationFilter loginFilter() throws Exception {
+        CustomUsernamePasswordAuthenticationFilter filter = new CustomUsernamePasswordAuthenticationFilter();
+        filter.setAuthenticationManager(authenticationManagerBean());
+        return filter;
+    }
+
     /**
-     * 用户相关
+     * 认证相关，用来配置全局的认证相关的信息
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -76,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 对资源访问的规则进行重新定义
+     * 具体的权限控制规则配置
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -103,9 +110,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 异常处理：认证失败和权限不足
         http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint).accessDeniedHandler(customAccessDeniedHandler);
         // 登录过滤器
-        http.addFilterAt(new CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
         // Token认证过滤器
-        http.addFilterBefore(authorizationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(authorizationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 }
