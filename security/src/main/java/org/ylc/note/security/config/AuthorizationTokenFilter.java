@@ -6,7 +6,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.ylc.note.security.service.SecurityUserService;
 import org.ylc.note.security.util.TokenUtil;
@@ -28,7 +27,6 @@ import java.io.IOException;
  * @date 2020/5/26
  */
 @Slf4j
-@Component
 public class AuthorizationTokenFilter extends OncePerRequestFilter {
 
     @Autowired

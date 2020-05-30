@@ -52,8 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
-    @Autowired
-    private AuthorizationTokenFilter authorizationTokenFilter;
 
     public SecurityConfig(SecurityUserService securityUserService) {
         this.securityUserService = securityUserService;
@@ -71,7 +69,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CustomUsernamePasswordAuthenticationFilter loginFilter() throws Exception {
         CustomUsernamePasswordAuthenticationFilter filter = new CustomUsernamePasswordAuthenticationFilter();
         filter.setAuthenticationManager(authenticationManagerBean());
+        filter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
+        filter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
         return filter;
+    }
+
+    @Bean
+    AuthorizationTokenFilter tokenFilter() {
+        return new AuthorizationTokenFilter();
     }
 
     /**
@@ -79,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(securityUserService);
+        auth.userDetailsService(securityUserService).passwordEncoder(passwordEncoder());
     }
 
     /**
@@ -91,10 +96,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .anyRequest().authenticated()
+
                 .and()
                 .formLogin()
-                .successHandler(customAuthenticationSuccessHandler)
-                .failureHandler(customAuthenticationFailureHandler)
                 .permitAll()
 
                 .and()
@@ -107,12 +112,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // 前后端分离采用JWT 不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        // 异常处理：认证失败和权限不足
+
+        // 异常处理：认证失败和权限不
         http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint).accessDeniedHandler(customAccessDeniedHandler);
         // 登录过滤器
-        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+        //http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
         // Token认证过滤器
-        http.addFilterAfter(authorizationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(tokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 }

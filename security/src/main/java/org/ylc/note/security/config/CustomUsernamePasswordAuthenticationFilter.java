@@ -29,7 +29,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        log.info("login");
+        log.info("login...");
         // 登录必须要POST提交
         if (!request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException(
