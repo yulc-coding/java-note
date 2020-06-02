@@ -8,7 +8,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
@@ -22,7 +21,8 @@ import java.util.Collection;
  * @version 1.0.0
  * @date 2020/5/19
  */
-@Component
+@Deprecated
+//@Component
 public class CustomAccessDecisionManager implements AccessDecisionManager {
 
     @Override

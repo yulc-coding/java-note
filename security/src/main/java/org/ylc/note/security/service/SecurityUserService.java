@@ -5,9 +5,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.ylc.note.security.constant.ConfigConstants;
 import org.ylc.note.security.entity.SecurityUserDetails;
 import org.ylc.note.security.entity.User;
-import org.ylc.note.security.mapper.MenuMapper;
 import org.ylc.note.security.mapper.UserMapper;
 
 /**
@@ -24,13 +24,21 @@ public class SecurityUserService implements UserDetailsService {
 
     private final UserMapper userMapper;
 
-    private final MenuMapper menuMapper;
+    private final RedisService redisService;
 
-    public SecurityUserService(UserMapper userMapper, MenuMapper menuMapper) {
+    public SecurityUserService(UserMapper userMapper, RedisService redisService) {
         this.userMapper = userMapper;
-        this.menuMapper = menuMapper;
+        this.redisService = redisService;
     }
 
+    /**
+     * 登录校验：根据用户名获取用户信息。
+     * <p>
+     * 生成Token并放入Redis中
+     * 获取所有的权限并放入Redis中
+     * <p>
+     * 校验Token的时候直接从Redis中获取
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("根据用户名【{}】获取用户信息", username);
@@ -38,14 +46,27 @@ public class SecurityUserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("用户名不存在!");
         }
+
         SecurityUserDetails securityUserDetails = new SecurityUserDetails();
+        securityUserDetails.setUserId(user.getId());
         securityUserDetails.setUsername(user.getUsername());
         securityUserDetails.setPassword(user.getPassword());
 
-        log.info("获取用户【{}】的权限", username);
-        // 权限
-        securityUserDetails.setPermissions(menuMapper.getUserPermissions(user.getId()));
         return securityUserDetails;
     }
 
+    /**
+     * 校验token
+     */
+    public UserDetails loadUserForAuthorization(String userId) {
+        // token失效
+        String redisToken = redisService.get(ConfigConstants.USER_TOKEN_PREFIX + userId);
+        if (redisToken == null) {
+            return null;
+        }
+        SecurityUserDetails user = new SecurityUserDetails();
+        user.setUserId(Long.parseLong(userId));
+        user.setToken(redisToken);
+        return user;
+    }
 }

@@ -18,7 +18,7 @@
     </select>
 
     <select id="loadUserByUsername" resultType="org.ylc.note.security.entity.User">
-        SELECT username,password FROM sys_user where  username = #{username}
+        SELECT id,username,password FROM sys_user where  username = #{username}
     </select>
 
 </mapper>

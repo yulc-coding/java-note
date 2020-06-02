@@ -16,7 +16,8 @@ import java.io.IOException;
  * 代码千万行，注释第一行，
  * 注释不规范，同事泪两行。
  * <p>
- * 认证失败，Token错误或者没有，在这里处理结果，返回 JSON，默认返回Html
+ * 认证失败，Token错误、没有、过期，直接返回登录页面
+ * 返回 JSON，默认返回Html
  *
  * @author YuLc
  * @version 1.0.0

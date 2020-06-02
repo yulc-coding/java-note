@@ -10,6 +10,22 @@ package org.ylc.note.security.constant;
 public class ConfigConstants {
 
     /**
+     * PC token 过期时间 30分
+     */
+    public static Long DEFAULT_TOKEN_INVALID_TIME = 60 * 30L;
+
+    /**
+     * token 前缀 -> 前缀:用户ID
+     */
+    public static final String USER_TOKEN_PREFIX = "USER:TOKEN:";
+
+    /**
+     * 权限前缀 -> 前缀:员工ID
+     */
+    public static final String USER_PERMISSION_PREFIX = "USER:PERMISSION:";
+
+
+    /**
      * 请求返回
      */
     public static class Return {
@@ -30,5 +46,6 @@ public class ConfigConstants {
          */
         public static final int AUTHENTICATION_FAIL = 401;
     }
+
 
 }

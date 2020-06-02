@@ -30,7 +30,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         String msg;
         if (exception instanceof UsernameNotFoundException || exception instanceof BadCredentialsException) {
-            msg = "用户名或密码输入错误，登录失败!";
+            msg = "用户名或密码错误，登录失败!";
         } else if (exception instanceof DisabledException) {
             msg = "账户被禁用，登录失败，请联系管理员!";
         } else {

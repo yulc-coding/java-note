@@ -1,7 +1,6 @@
 package org.ylc.note.security.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -37,24 +36,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SecurityUserService securityUserService;
 
-    @Autowired
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-    @Autowired
-    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
-    @Autowired
-    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-    @Autowired
-    private CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    @Autowired
-    private CustomLogoutSuccessHandler customLogoutSuccessHandler;
+    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
-
-    public SecurityConfig(SecurityUserService securityUserService) {
+    public SecurityConfig(SecurityUserService securityUserService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, CustomAccessDeniedHandler customAccessDeniedHandler, CustomLogoutSuccessHandler customLogoutSuccessHandler) {
         this.securityUserService = securityUserService;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
+        this.customLogoutSuccessHandler = customLogoutSuccessHandler;
     }
 
     /**
@@ -113,10 +111,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 前后端分离采用JWT 不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        // 异常处理：认证失败和权限不
+        // 异常处理：认证失败和权限不足
         http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint).accessDeniedHandler(customAccessDeniedHandler);
         // 登录过滤器
-        //http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
         // Token认证过滤器
         http.addFilterAfter(tokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

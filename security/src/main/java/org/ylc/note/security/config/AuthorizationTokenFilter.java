@@ -36,12 +36,13 @@ public class AuthorizationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         log.info("获取token：{}", authHeader);
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String authToken = authHeader.substring("Bearer ".length());
-            String username = TokenUtil.parseToken(authToken);
+            String userId = TokenUtil.parseToken(authToken);
 
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = securityUserService.loadUserByUsername(username);
+            if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = securityUserService.loadUserForAuthorization(userId);
                 if (userDetails != null) {
                     // 将用户信息存入 authentication，方便后续校验
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -55,7 +56,7 @@ public class AuthorizationTokenFilter extends OncePerRequestFilter {
                 }
             }
         }
-
         filterChain.doFilter(request, response);
     }
+
 }

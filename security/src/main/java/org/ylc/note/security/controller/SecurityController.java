@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.ylc.note.security.common.HttpResult;
 import org.ylc.note.security.entity.User;
 import org.ylc.note.security.mapper.UserMapper;
+import org.ylc.note.security.service.RedisService;
 
 import java.util.List;
 
@@ -23,8 +24,11 @@ public class SecurityController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RedisService redisService;
+
     @GetMapping("/list")
-    public HttpResult<List<User>> userList(){
+    public HttpResult<List<User>> userList() {
 
         return HttpResult.success(userMapper.list());
     }
@@ -32,5 +36,10 @@ public class SecurityController {
     @GetMapping("/test")
     public String test() {
         return "success";
+    }
+
+    @GetMapping("/hasPermission")
+    public HttpResult<Boolean> hasPermission() {
+        return HttpResult.success(redisService.memberInSet("1312321", "test"));
     }
 }

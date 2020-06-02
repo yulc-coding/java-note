@@ -23,7 +23,7 @@
 
     <select id="getUserPermissions" resultType="java.lang.String">
         SELECT
-            m.permission
+            DISTINCT m.permission
         FROM
             sys_menu m
         WHERE
