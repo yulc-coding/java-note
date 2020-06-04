@@ -1,10 +1,10 @@
-package org.ylc.note.rabbit;
+package org.ylc.note.rabbit.producer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RabbitApplicationTests {
+class ProducerApplicationTests {
 
     @Test
     void contextLoads() {

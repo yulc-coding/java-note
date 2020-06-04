@@ -1,4 +1,4 @@
-package org.ylc.note.rabbit.controller;
+package org.ylc.note.rabbit.producer.controller;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,16 +11,15 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * 代码千万行，注释第一行，
- * 注释不规范，同事泪两行。
+ * 代码全万行，注释第一行
+ * 注释不规范，同事泪两行
  *
  * @author YuLc
  * @version 1.0.0
- * @date 2020/3/12
+ * @date 2020-06-04
  */
 @RestController
 public class SendMessageController {
-
     private final RabbitTemplate rabbitTemplate;
 
     public SendMessageController(RabbitTemplate rabbitTemplate) {
@@ -40,5 +39,4 @@ public class SendMessageController {
         rabbitTemplate.convertAndSend("directExchange", "directRouting", map);
         return "success";
     }
-
 }

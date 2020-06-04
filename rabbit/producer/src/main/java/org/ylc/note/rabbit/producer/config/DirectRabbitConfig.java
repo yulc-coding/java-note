@@ -1,4 +1,4 @@
-package org.ylc.note.rabbit.config;
+package org.ylc.note.rabbit.producer.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -8,14 +8,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 代码千万行，注释第一行，
- * 注释不规范，同事泪两行。
- * <p>
- * 直连型交换机
+ * 代码全万行，注释第一行
+ * 注释不规范，同事泪两行
  *
  * @author YuLc
  * @version 1.0.0
- * @date 2020/3/12
+ * @date 2020-06-04
  */
 @Configuration
 public class DirectRabbitConfig {
