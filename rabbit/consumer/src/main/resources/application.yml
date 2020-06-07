@@ -1,4 +1,8 @@
+server:
+  port: 8082
 spring:
+  application:
+    name: rabbit-consumer
   rabbitmq:
     host: localhost
     port: 5672

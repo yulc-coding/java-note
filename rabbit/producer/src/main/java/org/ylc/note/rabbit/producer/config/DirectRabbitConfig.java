@@ -5,7 +5,6 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * 代码全万行，注释第一行
@@ -15,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0.0
  * @date 2020-06-04
  */
-@Configuration
+// @Configuration
 public class DirectRabbitConfig {
 
     /**

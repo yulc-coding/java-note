@@ -1,4 +1,8 @@
+server:
+  port: 8081
 spring:
+  application:
+    name: rabbit-producer
   rabbitmq:
     host: localhost
     port: 5672

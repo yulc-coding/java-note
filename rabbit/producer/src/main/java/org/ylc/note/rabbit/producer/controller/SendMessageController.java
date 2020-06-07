@@ -20,6 +20,7 @@ import java.util.UUID;
  */
 @RestController
 public class SendMessageController {
+
     private final RabbitTemplate rabbitTemplate;
 
     public SendMessageController(RabbitTemplate rabbitTemplate) {
@@ -35,8 +36,7 @@ public class SendMessageController {
         map.put("messageId", messageId);
         map.put("messageData", messageData);
         map.put("createTime", createTime);
-
-        rabbitTemplate.convertAndSend("directExchange", "directRouting", map);
+        rabbitTemplate.convertAndSend("test queue", map);
         return "success";
     }
 }
