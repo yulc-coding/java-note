@@ -2,7 +2,9 @@ package org.ylc.note.rabbit.producer.controller;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.ylc.note.rabbit.producer.config.TopicRabbitConfig;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +21,7 @@ import java.util.UUID;
  * @date 2020-06-04
  */
 @RestController
+@RequestMapping("/send")
 public class SendMessageController {
 
     private final RabbitTemplate rabbitTemplate;
@@ -27,15 +30,27 @@ public class SendMessageController {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @GetMapping("/send")
-    public String send() {
+    @GetMapping("/default")
+    public String sendDefault() {
         rabbitTemplate.convertAndSend("defaultQueue", getMessage("default"));
         return "success";
     }
 
-    @GetMapping("/sendDirect")
+    @GetMapping("/direct")
     public String sendDirectMessage() {
         rabbitTemplate.convertAndSend("directExchange", "directRouting", getMessage("direct"));
+        return "success";
+    }
+
+    @GetMapping("/topicFirst")
+    public String sendTopicFirst() {
+        rabbitTemplate.convertAndSend("topicExchange", TopicRabbitConfig.TOPIC_FIRST, getMessage("topicFirst"));
+        return "success";
+    }
+
+    @GetMapping("/topicSecond")
+    public String sendTopicSecond() {
+        rabbitTemplate.convertAndSend("topicExchange", TopicRabbitConfig.TOPIC_SECOND, getMessage("topicSecond"));
         return "success";
     }
 

@@ -24,11 +24,11 @@ public class DefaultReceiver {
 
     @RabbitHandler
     public void process(Map<String, Object> msg) {
-        log.info("receiver default message");
-        log.info("default type:{}", msg.get("type"));
-        log.info("default msgId:{}", msg.get("msgId"));
-        log.info("default msgData:{}", msg.get("msgData"));
-        log.info("default createTime:{}", msg.get("createTime"));
+        log.info("receiver 【default】 message");
+        log.info("【default】 type:{}", msg.get("type"));
+        log.info("【default】 msgId:{}", msg.get("msgId"));
+        log.info("【default】 msgData:{}", msg.get("msgData"));
+        log.info("【default】 createTime:{}", msg.get("createTime"));
     }
 
 }

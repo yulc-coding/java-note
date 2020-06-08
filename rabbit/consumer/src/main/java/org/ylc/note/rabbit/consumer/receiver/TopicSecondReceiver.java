@@ -11,7 +11,7 @@ import java.util.Map;
  * 代码千万行，注释第一行，
  * 注释不规范，同事泪两行。
  * <p>
- * 直接交换机消费
+ * 主题消息订阅
  *
  * @author YuLc
  * @version 1.0.0
@@ -19,16 +19,16 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-@RabbitListener(queues = "directQueue")
-public class DirectReceiver {
+@RabbitListener(queues = "note.second")
+public class TopicSecondReceiver {
 
     @RabbitHandler
     public void process(Map<String, Object> directMsg) {
-        log.info("receiver 【direct】 message");
-        log.info("【direct】 type:{}", directMsg.get("type"));
-        log.info("【direct】 msgId:{}", directMsg.get("msgId"));
-        log.info("【direct】 msgData:{}", directMsg.get("msgData"));
-        log.info("【direct】 createTime:{}", directMsg.get("createTime"));
+        log.info("receiver 【topic 2】 message");
+        log.info("【topic 2】 type:{}", directMsg.get("type"));
+        log.info("【topic 2】 msgId:{}", directMsg.get("msgId"));
+        log.info("【topic 2】 msgData:{}", directMsg.get("msgData"));
+        log.info("【topic 2】 createTime:{}", directMsg.get("createTime"));
     }
 
 }
