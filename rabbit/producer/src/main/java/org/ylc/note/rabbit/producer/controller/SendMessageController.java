@@ -29,14 +29,24 @@ public class SendMessageController {
 
     @GetMapping("/send")
     public String send() {
-        String messageId = String.valueOf(UUID.randomUUID());
-        String messageData = "test message, hello!";
-        String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        Map<String, Object> map = new HashMap<>(8);
-        map.put("messageId", messageId);
-        map.put("messageData", messageData);
-        map.put("createTime", createTime);
-        rabbitTemplate.convertAndSend("test queue", map);
+        rabbitTemplate.convertAndSend("defaultQueue", getMessage("default"));
         return "success";
     }
+
+    @GetMapping("/sendDirect")
+    public String sendDirectMessage() {
+        rabbitTemplate.convertAndSend("directExchange", "directRouting", getMessage("direct"));
+        return "success";
+    }
+
+    private Map<String, Object> getMessage(String type) {
+        String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("type", type);
+        map.put("msgId", UUID.randomUUID().toString());
+        map.put("msgData", "test message, hello!");
+        map.put("createTime", createTime);
+        return map;
+    }
+
 }

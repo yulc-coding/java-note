@@ -17,6 +17,6 @@ public class RabbitConfig {
 
     @Bean
     public Queue queue() {
-        return new Queue("test queue");
+        return new Queue("defaultQueue");
     }
 }
