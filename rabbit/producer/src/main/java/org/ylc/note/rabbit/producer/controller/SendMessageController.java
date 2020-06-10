@@ -30,27 +30,48 @@ public class SendMessageController {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    /**
+     * 默认交换机
+     */
     @GetMapping("/default")
     public String sendDefault() {
         rabbitTemplate.convertAndSend("defaultQueue", getMessage("default"));
         return "success";
     }
 
+    /**
+     * 直连交换机
+     */
     @GetMapping("/direct")
     public String sendDirectMessage() {
         rabbitTemplate.convertAndSend("directExchange", "directRouting", getMessage("direct"));
         return "success";
     }
 
+    /**
+     * 主题交换机1
+     */
     @GetMapping("/topicFirst")
     public String sendTopicFirst() {
         rabbitTemplate.convertAndSend("topicExchange", TopicRabbitConfig.TOPIC_FIRST, getMessage("topicFirst"));
         return "success";
     }
 
+    /**
+     * 主题交换机2
+     */
     @GetMapping("/topicSecond")
     public String sendTopicSecond() {
         rabbitTemplate.convertAndSend("topicExchange", TopicRabbitConfig.TOPIC_SECOND, getMessage("topicSecond"));
+        return "success";
+    }
+
+    /**
+     * 扇形交换机
+     */
+    @GetMapping("/fanout")
+    public String sendFanout() {
+        rabbitTemplate.convertAndSend("fanoutExchange", null, getMessage("fanout"));
         return "success";
     }
 
