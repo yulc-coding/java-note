@@ -31,7 +31,7 @@ public class SendMessageController {
     }
 
     /**
-     * 默认交换机
+     * 默认交换机：AMQP default
      */
     @GetMapping("/default")
     public String sendDefault() {

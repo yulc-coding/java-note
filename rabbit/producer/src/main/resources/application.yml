@@ -8,3 +8,7 @@ spring:
     port: 5672
     username: guest
     password: guest
+    # 确认消息已发送到队列
+    publisher-returns: true
+    # 消息确认类别
+    publisher-confirm-type: correlated

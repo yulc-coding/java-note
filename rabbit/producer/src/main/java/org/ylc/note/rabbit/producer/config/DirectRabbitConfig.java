@@ -21,6 +21,14 @@ import org.springframework.context.annotation.Configuration;
 public class DirectRabbitConfig {
 
     /**
+     * 不绑定交换机，会绑定默认的交换机：AMQP default
+     */
+    @Bean
+    public Queue defaultQueue() {
+        return new Queue("defaultQueue");
+    }
+
+    /**
      * 配置队列
      */
     @Bean
