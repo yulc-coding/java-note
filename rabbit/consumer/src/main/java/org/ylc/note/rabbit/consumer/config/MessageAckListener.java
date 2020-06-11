@@ -44,10 +44,16 @@ public class MessageAckListener implements ChannelAwareMessageListener {
             } else if ("directQueue".equals(queue)) {
                 log.info("这是一个直连交换机的队列");
             }
+            // 肯定确认：消息已被处理
             channel.basicAck(deliveryTag, true);
         } catch (Exception e) {
             log.error("消费信息异常，重回队列");
-            // 为true会重新放回队列
+            /*
+             * 为true会重新放回队列，false则丢掉这条消息
+             * 选择重入需要注意。可能会出现：
+             * 消息一直消费-入列-消费-入列这样循环，会导致消息积压
+             * 消息重复消费（幂等性控制）
+             */
             channel.basicReject(deliveryTag, true);
             e.printStackTrace();
         }

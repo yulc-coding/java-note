@@ -65,4 +65,13 @@ public class DirectRabbitConfig {
         return BindingBuilder.bind(directQueue()).to(directExchange()).with("directRouting");
     }
 
+    /**
+     * ACK测试
+     * 未绑定队列的交换机
+     */
+    @Bean
+    public DirectExchange unBindingExchange() {
+        return new DirectExchange("unBindingExchange");
+    }
+
 }

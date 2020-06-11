@@ -75,12 +75,38 @@ public class SendMessageController {
         return "success";
     }
 
+
+    /**
+     * ACK测试：
+     * 发送到不存在的交换机
+     * 触发：ConfirmCallback
+     */
+    @GetMapping("/missExchange")
+    public String missExchange() {
+        rabbitTemplate.convertAndSend("missExchange", "directRouting", getMessage("missExchange"));
+        return "success";
+    }
+
+    /**
+     * ACK测试：
+     * 发送到不存在的队列
+     * 触发：
+     * ConfirmCallback：成功发送到了交换机
+     * ReturnCallback：通过路由没有找到对应的队列，返回了NO_ROUTE
+     */
+    @GetMapping("/missQueue")
+    public String missQueue() {
+        rabbitTemplate.convertAndSend("unBindingExchange", "directRouting", getMessage("direct"));
+        return "success";
+    }
+
+
     private Map<String, Object> getMessage(String type) {
         String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Map<String, Object> map = new HashMap<>(8);
         map.put("type", type);
         map.put("msgId", UUID.randomUUID().toString());
-        map.put("msgData", "test message, hello!");
+        map.put("msgData", "test message");
         map.put("createTime", createTime);
         return map;
     }

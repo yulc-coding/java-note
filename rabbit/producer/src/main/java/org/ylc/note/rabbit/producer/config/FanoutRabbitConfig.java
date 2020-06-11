@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * 注释不规范，同事泪两行。
  * <p>
  * 扇型交换机、队列配置
+ * 不需要考虑路由键，消息会转发到所有绑定该交换机的队列
  *
  * @author YuLc
  * @version 1.0.0

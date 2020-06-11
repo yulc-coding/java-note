@@ -24,7 +24,13 @@ public class RabbitConfig {
         rabbitTemplate.setConnectionFactory(connectionFactory);
         // 设置开启Mandatory,才能触发回调函数,无论消息推送结果怎么样都强制调用回调函数
         rabbitTemplate.setMandatory(true);
-        // 确认消息已发送到队列,没有找到队列
+        // 消息发送到交换机，ack为true，如果要发送的交换机不存在，ack为false
+        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
+            log.info("ConfirmCallback:     相关数据：{}", correlationData);
+            log.info("ConfirmCallback:     确认情况：{}", ack);
+            log.info("ConfirmCallback:     原因：{}", cause);
+        });
+        // 消息到达交换机，但是根据路由找不到对应的队列时会调用
         rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
             log.info("ReturnCallback:     消息：{}", message);
             log.info("ReturnCallback:     回应码：{}", replyCode);
@@ -32,12 +38,7 @@ public class RabbitConfig {
             log.info("ReturnCallback:     交换机：{}", exchange);
             log.info("ReturnCallback:     路由键：{}", routingKey);
         });
-        // 回调函数
-        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
-            log.info("ConfirmCallback:     相关数据：{}", correlationData);
-            log.info("ConfirmCallback:     确认情况：{}", ack);
-            log.info("ConfirmCallback:     原因：{}", cause);
-        });
         return rabbitTemplate;
     }
+
 }
