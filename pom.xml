@@ -24,6 +24,7 @@
         <module>netty</module>
         <module>security</module>
         <module>mybatis</module>
+        <module>rate-limiter</module>
     </modules>
 
     <properties>
@@ -91,7 +92,7 @@
                 <version>3.12.0</version>
             </dependency>
 
-            <!-- bloomFilter  -->
+            <!-- bloomFilter、rateLimiter  -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
