@@ -25,6 +25,7 @@
         <module>security</module>
         <module>mybatis</module>
         <module>rate-limiter</module>
+        <module>concurrent</module>
     </modules>
 
     <properties>
