@@ -57,13 +57,19 @@ public class SecurityUserService implements UserDetailsService {
 
     /**
      * 校验token
+     * 重置token 有效时间
+     * 重置权限有效时间
      */
     public UserDetails loadUserForAuthorization(String userId) {
-        // token失效
+        // 从Redis中获取token
         String redisToken = redisService.get(ConfigConstants.USER_TOKEN_PREFIX + userId);
         if (redisToken == null) {
             return null;
         }
+
+        redisService.expire(ConfigConstants.USER_TOKEN_PREFIX + userId, ConfigConstants.DEFAULT_TOKEN_INVALID_TIME);
+        redisService.expire(ConfigConstants.USER_PERMISSION_PREFIX + userId, ConfigConstants.DEFAULT_TOKEN_INVALID_TIME);
+
         SecurityUserDetails user = new SecurityUserDetails();
         user.setUserId(Long.parseLong(userId));
         user.setToken(redisToken);
