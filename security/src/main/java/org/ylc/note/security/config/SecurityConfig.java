@@ -94,7 +94,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .anyRequest().authenticated()
+                // 动态 url 认证
+                .anyRequest().access("@accessDecisionService.hasPermission(request,authentication)")
 
                 .and()
                 .formLogin()
