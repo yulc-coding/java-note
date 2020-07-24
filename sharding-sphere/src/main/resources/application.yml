@@ -1,17 +1,16 @@
 spring:
   shardingsphere:
     datasource:
-      names:
-        - sharding0
-        - sharding1
-      ds0:
-        type: com.alibaba.druid.pool.DruidDataSource
+      names: sharding0, sharding1
+      sharding0:
+        #type: com.alibaba.druid.pool.DruidDataSource
+        type: com.zaxxer.hikari.HikariDataSource
         driver-class: com.mysql.jdbc.Driver
         jdbc-url: jdbc:mysql://localhost:3306/sharding0
         username: root
         password: root2020!
-      ds1:
-        type: com.alibaba.druid.pool.DruidDataSource
+      sharding1:
+        type: com.zaxxer.hikari.HikariDataSource
         driver-class: com.mysql.jdbc.Driver
         jdbc-url: jdbc:mysql://localhost:3306/sharding1
         username: root
@@ -29,15 +28,15 @@ spring:
       tables:
         sys_log:
           # 真实的数据节点，数据源+表名的形式
-#          actual-data-nodes: sharding$->{0..1}.data$->{0..1}
+          actual-data-nodes: sharding$->{0..1}.sys_log->{0..1}
           table-strategy:
             standard:
               sharding-column: create_time
-              precise-algorithm-class-name:
-              range-algorithm-className:
+              precise-algorithm-class-name: org.ylc.note.shardingsphere.strategy.LogPreciseShardingAlgorithm
+              range-algorithm-className: org.ylc.note.shardingsphere.strategy.LogRangeShardingAlgorithm
           # 自增列生成规则，这里用雪花算法
           key-generator:
-            colum: id
+            column: id
             type: SNOWFLAKE
             props:
               worker:
