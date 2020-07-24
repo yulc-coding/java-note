@@ -2,38 +2,39 @@ spring:
   shardingsphere:
     datasource:
       names:
-        - ds0
-        - ds1
+        - sharding0
+        - sharding1
       ds0:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/ds0
+        jdbc-url: jdbc:mysql://localhost:3306/sharding0
         username: root
-        password: root
+        password: root2020!
       ds1:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/ds1
+        jdbc-url: jdbc:mysql://localhost:3306/sharding1
         username: root
-        password: root
+        password: root2020!
     sharding:
       # 默认分库策略
       default-database-strategy:
+        # 行表达式
         inline:
           # 分库字段
-          sharding-column: sex
+          sharding-column: id
           # 分库规则
-          algorithm-expression: ds$->{sex % 2}
+          algorithm-expression: sharding$->{id % 2}
       # 分表策略
       tables:
-        user:
+        sys_log:
           # 真实的数据节点，数据源+表名的形式
-          actual-data-nodes: ds$->{0..1}.user$->{0..1}
-          # databaseStrategy：可以指定分库策略，默认使用default-database-strategy
+#          actual-data-nodes: sharding$->{0..1}.data$->{0..1}
           table-strategy:
-            inline:
-              sharding-column: id
-              algorithm-expression: user$->{id % 2}
+            standard:
+              sharding-column: create_time
+              precise-algorithm-class-name:
+              range-algorithm-className:
           # 自增列生成规则，这里用雪花算法
           key-generator:
             colum: id
@@ -42,11 +43,15 @@ spring:
               worker:
                 id: 33
       # 配置绑定表，连表查询时减少路由查询次数。（相同分表字段和规则的表）
-      binding-tables:
-        - user
-        - order
+#      binding-tables:
+#        - user
+#        - order
       # 配置广播表：所有分片数据源中都存在的表，表结构和数据都一样。适用于数据量不大，但是需要和海量数据进行联查，如字典表
-      broadcast-tables: dict
+#      broadcast-tables: dict
+    # 显示SQL
+    props:
+      sql:
+        show: true
 mybatis:
   type-aliases-package: org.ylc.note.shardingsphere.entity
   mapper-locations: classpath*:/mapper/**/*.xml
