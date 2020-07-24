@@ -13,7 +13,7 @@
     </insert>
 
     <select id="rangeSearch" resultMap="BaseResultMap">
-        select *  from  sys_log where create_time &gt;= #{begin} AND create_time &lt;= #{end}
+        select *  from  sys_log where create_time BETWEEN #{begin} AND #{end}
     </select>
 
 </mapper>

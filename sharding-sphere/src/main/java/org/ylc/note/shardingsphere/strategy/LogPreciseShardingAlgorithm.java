@@ -28,7 +28,7 @@ public class LogPreciseShardingAlgorithm implements PreciseShardingAlgorithm<Loc
 
     @Override
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<LocalDateTime> shardingValue) {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyyMM");
 
         String tableName = shardingValue.getLogicTableName();
         LocalDateTime time = shardingValue.getValue();

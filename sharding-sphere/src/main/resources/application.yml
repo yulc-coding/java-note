@@ -6,15 +6,15 @@ spring:
         #type: com.alibaba.druid.pool.DruidDataSource
         type: com.zaxxer.hikari.HikariDataSource
         driver-class: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/sharding0
+        jdbc-url: jdbc:mysql://localhost:3306/sharding0?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
         username: root
-        password: root2020!
+        password: root2019!
       sharding1:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/sharding1
+        jdbc-url: jdbc:mysql://localhost:3306/sharding1?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
         username: root
-        password: root2020!
+        password: root2019!
     sharding:
       # 默认分库策略
       default-database-strategy:
@@ -28,7 +28,7 @@ spring:
       tables:
         sys_log:
           # 真实的数据节点，数据源+表名的形式
-          actual-data-nodes: sharding$->{0..1}.sys_log->{0..1}
+          actual-data-nodes: sharding$->{0..1}.sys_log_20200$->{7..9}
           table-strategy:
             standard:
               sharding-column: create_time

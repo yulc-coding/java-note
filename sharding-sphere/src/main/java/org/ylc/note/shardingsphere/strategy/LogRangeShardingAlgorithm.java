@@ -31,7 +31,7 @@ public class LogRangeShardingAlgorithm implements RangeShardingAlgorithm<LocalDa
 
     @Override
     public Collection<String> doSharding(Collection<String> availableTargetNames, RangeShardingValue<LocalDateTime> shardingValue) {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyyMM");
 
         Set<String> tableSet = new HashSet<>();
         String tableName = shardingValue.getLogicTableName();
