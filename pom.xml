@@ -121,7 +121,7 @@
                 <artifactId>sharding-orchestration-reg-nacos</artifactId>
                 <version>4.0.1</version>
             </dependency>
-             
+
             <dependency>
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
