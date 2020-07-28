@@ -1,4 +1,13 @@
 ## 分表分库中间件：ShardingSphere
+基于SpringBoot搭建
+
+### pom
+```
+    <dependency>
+        <groupId>org.apache.shardingsphere</groupId>
+        <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+    </dependency>
+```
 
 ### 策略
 * 分表分库所采用的字段：`sharding-column`

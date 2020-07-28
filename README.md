@@ -11,6 +11,8 @@
 
 ## [基于JWT（JSON Web Token）的token身份验证](https://github.com/yulc-coding/java-note/tree/master/jwt)
 
+## [Spring Security + Token 实现权限控制](https://github.com/yulc-coding/java-note/tree/master/security)
+
 ## [自定义 Spring Boot Starter](https://github.com/yulc-coding/java-note/tree/master/common-spring-boot-autoconfigure)
 
 ## [Spring Boot 实现异步事件Event](https://github.com/yulc-coding/java-note/tree/master/event)
@@ -18,3 +20,5 @@
 ## [Spring Boot 消息实时推送](https://github.com/yulc-coding/java-note/tree/master/message-push)
 
 ## [Redis 相关](https://github.com/yulc-coding/java-note/tree/master/redis)
+
+## [Sharding Sphere 分库分表](https://github.com/yulc-coding/java-note/tree/master/sharding-sphere)
