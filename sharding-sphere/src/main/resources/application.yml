@@ -35,7 +35,7 @@ spring:
       # 分表策略
       tables:
         sys_log:
-          # 真实的数据节点，数据源+表名的形式
+          # 真实的数据节点，数据源+表名的形式（临时数据，这里需要通过配置中心来实现动态配置）
           actual-data-nodes: sharding$->{0..1}.sys_log_20200$->{7..9}
           table-strategy:
             standard:

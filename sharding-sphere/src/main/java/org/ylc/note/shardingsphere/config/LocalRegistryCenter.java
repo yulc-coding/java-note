@@ -13,12 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * 代码千万行，注释第一行，
  * 注释不规范，同事泪两行。
  * <p>
- * 本地注册中心
+ * 本地注册中心（作废）
  *
  * @author YuLc
  * @version 1.0.0
  * @date 2020/7/26
  */
+@Deprecated
 public class LocalRegistryCenter implements RegistryCenter {
 
     public static Map<String, DataChangedEventListener> LISTENERS = new ConcurrentHashMap<>();
