@@ -22,4 +22,7 @@ public interface SysLogMapper {
 
     List<SysLog> rangeSearch(@Param("begin") LocalDateTime begin, @Param("end") LocalDateTime end);
 
+    List<SysLog> page(@Param("curIndex") Long curIndex, @Param("size") Long size);
+
+    List<SysLog> pageById(@Param("lastId") Long lastId, @Param("size") Long size);
 }

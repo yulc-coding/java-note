@@ -21,6 +21,8 @@ public class SysLog {
 
     private Integer id;
 
+    private Integer operationId;
+
     private Integer value;
 
     private LocalDateTime createTime;

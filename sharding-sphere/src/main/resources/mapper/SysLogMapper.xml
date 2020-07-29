@@ -4,7 +4,8 @@
 
     <resultMap id="BaseResultMap" type="org.ylc.note.shardingsphere.entity.SysLog">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="pid" jdbcType="INTEGER" property="value"/>
+        <result column="operation_id" jdbcType="INTEGER" property="operationId"/>
+        <result column="value" jdbcType="INTEGER" property="value"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
 
@@ -14,6 +15,14 @@
 
     <select id="rangeSearch" resultMap="BaseResultMap">
         select *  from  sys_log where create_time BETWEEN #{begin} AND #{end}
+    </select>
+
+    <select id="page" resultMap="BaseResultMap">
+        select * from sys_log limit #{curIndex}, #{size}
+    </select>
+
+    <select id="pageById" resultMap="BaseResultMap">
+        select * from sys_log where id > #{lastId} limit #{size}
     </select>
 
 </mapper>

@@ -1,7 +1,6 @@
 package org.ylc.note.shardingsphere.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +24,11 @@ import java.util.List;
 @RestController
 public class SysLogController {
 
-    @Autowired
-    private SysLogMapper sysLogMapper;
+    private final SysLogMapper sysLogMapper;
+
+    public SysLogController(SysLogMapper sysLogMapper) {
+        this.sysLogMapper = sysLogMapper;
+    }
 
     @GetMapping("/rangeSearch")
     public ResponseEntity<List<SysLog>> rangeSearch(Integer beginMonth, Integer endMonth) {
@@ -42,6 +44,24 @@ public class SysLogController {
         return ResponseEntity.ok(rangeList);
     }
 
+    /**
+     * 普通分页查询，注意观察实际的SQL语句
+     */
+    @GetMapping("/page")
+    public ResponseEntity<List<SysLog>> page(Long page, Long size) {
+        Long curIndex = (page - 1) * size;
+        List<SysLog> pageList = sysLogMapper.page(curIndex, size);
+        return ResponseEntity.ok(pageList);
+    }
+
+    /**
+     * 普通分页查询，注意观察实际的SQL语句
+     */
+    @GetMapping("/pageById")
+    public ResponseEntity<List<SysLog>> pageById(Long lastId, Long size) {
+        List<SysLog> pageList = sysLogMapper.pageById(lastId, size);
+        return ResponseEntity.ok(pageList);
+    }
 
     @GetMapping("/newLog")
     public String newLog(Integer value, Integer month) {
