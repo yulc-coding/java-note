@@ -1,12 +1,12 @@
 spring:
   shardingsphere:
     datasource:
-      names: dcmi, sharding0, sharding1
-      dcmi:
+      names: sharding, sharding0, sharding1
+      sharding:
         #type: com.alibaba.druid.pool.DruidDataSource
         type: com.zaxxer.hikari.HikariDataSource
         driver-class: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/dcmi?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
+        jdbc-url: jdbc:mysql://localhost:3306/sharding?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
         username: root
         password: root2019!
       sharding0:
@@ -23,7 +23,7 @@ spring:
         password: root2019!
     sharding:
       # 默认数据源，不分片数据存放
-      default-data-source-name: dcmi
+      default-data-source-name: sharding
       # 默认分库策略
       default-database-strategy:
         # 行表达式
@@ -36,7 +36,11 @@ spring:
       tables:
         sys_log:
           # 真实的数据节点，数据源+表名的形式（临时数据，这里需要通过配置中心来实现动态配置）
-          actual-data-nodes: sharding$->{0..1}.sys_log_20200$->{7..9}
+          actual-data-nodes: sharding$->{0..1}.sys_log_$->{[202007, 202008, 202009, 202010]}
+          database-strategy:
+            inline:
+              sharding-column: operation_id
+              algorithm-expression: sharding$->{operation_id % 2}
           table-strategy:
             standard:
               sharding-column: create_time
