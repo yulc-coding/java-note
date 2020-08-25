@@ -27,6 +27,7 @@
         <module>rate-limiter</module>
         <module>concurrent</module>
         <module>sharding-sphere</module>
+        <module>quartz</module>
     </modules>
 
     <properties>
