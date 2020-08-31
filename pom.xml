@@ -28,6 +28,7 @@
         <module>concurrent</module>
         <module>sharding-sphere</module>
         <module>quartz</module>
+        <module>poi</module>
     </modules>
 
     <properties>
@@ -127,6 +128,29 @@
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
                 <version>1.3.1</version>
+            </dependency>
+
+            <!-- excel导入导出 -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>4.1.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml-schemas</artifactId>
+                <version>4.1.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>4.1.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-spring-boot-starter</artifactId>
+                <version>4.2.0</version>
             </dependency>
 
         </dependencies>
