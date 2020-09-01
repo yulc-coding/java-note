@@ -1,10 +1,10 @@
-package org.ylc.note.poi;
+package org.ylc.note.normalpoi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PoiApplicationTests {
+class NormalPoiApplicationTests {
 
     @Test
     void contextLoads() {

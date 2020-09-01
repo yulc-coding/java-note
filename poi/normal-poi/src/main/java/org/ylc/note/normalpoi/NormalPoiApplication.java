@@ -1,13 +1,13 @@
-package org.ylc.note.poi;
+package org.ylc.note.normalpoi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PoiApplication {
+public class NormalPoiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PoiApplication.class, args);
+        SpringApplication.run(NormalPoiApplication.class, args);
     }
 
 }
