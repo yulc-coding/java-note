@@ -1,7 +1,10 @@
 package org.ylc.note.quartz.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.ylc.note.quartz.entity.ScheduleJob;
+import org.ylc.note.quartz.service.ScheduleJobService;
+
+import java.util.List;
 
 /**
  * 代码全万行，注释第一行
@@ -15,6 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ScheduleController {
 
+    private final ScheduleJobService scheduleJobService;
 
+    public ScheduleController(ScheduleJobService scheduleJobService) {
+        this.scheduleJobService = scheduleJobService;
+    }
+
+    @GetMapping("/list")
+    public List<ScheduleJob> list() {
+        List<ScheduleJob> jobs = scheduleJobService.list();
+        jobs.forEach(System.out::print);
+        return jobs;
+    }
+
+    @PostMapping("/create")
+    public void create(@RequestBody ScheduleJob job) {
+        scheduleJobService.createJob(job);
+    }
 
 }

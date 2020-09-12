@@ -2,10 +2,11 @@ spring:
   application:
     name: quzrtz
   datasource:
-    url: jdbc:mysql://localhost:3306/quarzt?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
+    url: jdbc:mysql://localhost:3306/quartz?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
     username: root
-    password: root2019!
+    password: root2020!
     driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
     # Hikari 连接池配置
     hikari:
       # 连接池名称
@@ -22,3 +23,5 @@ spring:
       connection-test-query: select 1
   jpa:
     database: mysql
+    # 打印SQL语句
+    show-sql: true
