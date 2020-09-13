@@ -2,6 +2,7 @@ package org.ylc.note.quartz.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "schedule_job")
 public class ScheduleJob {
@@ -26,15 +28,15 @@ public class ScheduleJob {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "class_name", nullable = false)
+    @Column(name = "class_name")
     private String className;
 
-    @Column(name = "method_name", nullable = false)
+    @Column(name = "method_name")
     private String methodName;
 
     private String parameter;
 
-    @Column(name = "cron_expression", nullable = false)
+    @Column(name = "cron_expression")
     private String cronExpression;
 
     private String status;
@@ -44,6 +46,6 @@ public class ScheduleJob {
 
     private String remark;
 
-    @Column(name = "create_time", nullable = false)
+    @Column(name = "create_time")
     private LocalDateTime createTime;
 }

@@ -34,22 +34,23 @@ public class ScheduleJobService {
         job.setStatus(EnumConstant.JobStatus.NORMAL.getCode());
         job.setCreateTime(LocalDateTime.now());
         scheduleJobRepository.save(job);
-        quartzService.createJob();
+
+        quartzService.createJob(job);
     }
 
-    public void pauseJob() {
-        quartzService.pauseJob();
+    public void modifyJob(ScheduleJob job) {
+        quartzService.modifyJob(job);
     }
 
-    public void restoreJob() {
-        quartzService.restoreJob();
+    public void pauseJob(Long jobId) {
+        quartzService.pauseJob(jobId);
     }
 
-    public void modifyJob() {
-        quartzService.modifyJob();
+    public void resumeJob(long jobId) {
+        quartzService.resumeJob(jobId);
     }
 
-    public void removeJob() {
-        quartzService.restoreJob();
+    public void removeJob(long jobId) {
+        quartzService.removeJob(jobId);
     }
 }
