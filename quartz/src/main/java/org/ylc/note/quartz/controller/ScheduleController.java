@@ -1,5 +1,6 @@
 package org.ylc.note.quartz.controller;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.ylc.note.quartz.entity.ScheduleJob;
 import org.ylc.note.quartz.service.ScheduleJobService;
@@ -32,8 +33,34 @@ public class ScheduleController {
     }
 
     @PostMapping("/create")
-    public void create(@RequestBody ScheduleJob job) {
+    public String create(@RequestBody @Validated ScheduleJob job) {
         scheduleJobService.createJob(job);
+        return "success";
+    }
+
+
+    @PostMapping("/modify")
+    public String modify(@RequestBody @Validated ScheduleJob job) {
+        scheduleJobService.modifyJob(job);
+        return "success";
+    }
+
+    @PostMapping("/pause")
+    public String pause(Long jobId) {
+        scheduleJobService.pauseJob(jobId);
+        return "success";
+    }
+
+    @PostMapping("/resume")
+    public String resume(Long jobId) {
+        scheduleJobService.resumeJob(jobId);
+        return "success";
+    }
+
+    @PostMapping("/remove")
+    public String remove(Long jobId) {
+        scheduleJobService.removeJob(jobId);
+        return "success";
     }
 
 }

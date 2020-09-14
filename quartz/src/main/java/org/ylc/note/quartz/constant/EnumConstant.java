@@ -20,10 +20,9 @@ public class EnumConstant {
         PAUSED("0", "暂停"),
         NORMAL("1", "正常");
 
+        private final String code;
 
-        private String code;
-
-        private String value;
+        private final String value;
 
     }
 

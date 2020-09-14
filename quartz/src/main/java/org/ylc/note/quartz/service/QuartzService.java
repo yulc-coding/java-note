@@ -2,7 +2,6 @@ package org.ylc.note.quartz.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.ylc.note.quartz.constant.EnumConstant;
 import org.ylc.note.quartz.entity.QuartzScheduleJob;
@@ -20,10 +19,13 @@ import org.ylc.note.quartz.entity.ScheduleJob;
 @Component
 public class QuartzService {
 
-    @Autowired
-    private Scheduler scheduler;
+    private final Scheduler scheduler;
 
     private final static String JOB_NAME = "TASK_";
+
+    public QuartzService(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
 
     /**
      * 获取jobKey
@@ -46,6 +48,9 @@ public class QuartzService {
         return (CronTrigger) scheduler.getTrigger(getTriggerKey(jobId));
     }
 
+    /**
+     * 创建定时任务
+     */
     public void createJob(ScheduleJob job) {
         try {
             //构建job信息
@@ -72,6 +77,11 @@ public class QuartzService {
         }
     }
 
+    /**
+     * 暂停定时任务
+     *
+     * @param jobId 指定的任务
+     */
     public void pauseJob(long jobId) {
         try {
             scheduler.pauseJob(getJobKey(jobId));
@@ -80,6 +90,11 @@ public class QuartzService {
         }
     }
 
+    /**
+     * 恢复定时任务
+     *
+     * @param jobId 指定的任务
+     */
     public void resumeJob(long jobId) {
         try {
             scheduler.resumeJob(getJobKey(jobId));
@@ -88,6 +103,11 @@ public class QuartzService {
         }
     }
 
+    /**
+     * 修改定时任务
+     *
+     * @param job 修改后的任务信息
+     */
     public void modifyJob(ScheduleJob job) {
         try {
             TriggerKey triggerKey = getTriggerKey(job.getId());
@@ -114,6 +134,11 @@ public class QuartzService {
         }
     }
 
+    /**
+     * 移除定时任务
+     *
+     * @param jobId 指定的任务
+     */
     public void removeJob(long jobId) {
         try {
             scheduler.deleteJob(getJobKey(jobId));
@@ -122,6 +147,11 @@ public class QuartzService {
         }
     }
 
+    /**
+     * 立即执行指定的定时任务
+     *
+     * @param job 任务信息
+     */
     public void run(ScheduleJob job) {
 
     }

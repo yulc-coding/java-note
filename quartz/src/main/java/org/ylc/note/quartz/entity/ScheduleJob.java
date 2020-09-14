@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 /**
@@ -28,14 +29,17 @@ public class ScheduleJob {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "执行类不能为空")
     @Column(name = "class_name")
     private String className;
 
+    @NotBlank(message = "执行方法不能为空")
     @Column(name = "method_name")
     private String methodName;
 
     private String parameter;
 
+    @NotBlank(message = "cron 表达式不能为空")
     @Column(name = "cron_expression")
     private String cronExpression;
 
@@ -48,4 +52,5 @@ public class ScheduleJob {
 
     @Column(name = "create_time")
     private LocalDateTime createTime;
+
 }
