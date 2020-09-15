@@ -1,7 +1,6 @@
 package org.ylc.note.quartz.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.ylc.note.quartz.constant.EnumConstant;
 import org.ylc.note.quartz.entity.ScheduleJob;
@@ -22,11 +21,14 @@ import java.util.List;
 @Service
 public class ScheduleJobService {
 
-    @Autowired
-    private ScheduleJobRepository scheduleJobRepository;
+    private final ScheduleJobRepository scheduleJobRepository;
 
-    @Autowired
-    private QuartzService quartzService;
+    private final QuartzService quartzService;
+
+    public ScheduleJobService(ScheduleJobRepository scheduleJobRepository, QuartzService quartzService) {
+        this.scheduleJobRepository = scheduleJobRepository;
+        this.quartzService = quartzService;
+    }
 
     public List<ScheduleJob> list() {
         return scheduleJobRepository.findAll();

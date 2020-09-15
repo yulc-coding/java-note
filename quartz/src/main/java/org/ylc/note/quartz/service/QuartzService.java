@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.stereotype.Component;
 import org.ylc.note.quartz.constant.EnumConstant;
-import org.ylc.note.quartz.entity.QuartzScheduleJob;
+import org.ylc.note.quartz.job.QuartzScheduleJob;
 import org.ylc.note.quartz.entity.ScheduleJob;
 
 /**

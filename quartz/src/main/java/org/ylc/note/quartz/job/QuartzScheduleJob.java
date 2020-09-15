@@ -1,8 +1,9 @@
-package org.ylc.note.quartz.entity;
+package org.ylc.note.quartz.job;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+import org.ylc.note.quartz.entity.ScheduleJob;
 
 /**
  * 代码全万行，注释第一行
