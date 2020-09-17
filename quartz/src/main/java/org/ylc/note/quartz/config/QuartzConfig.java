@@ -47,42 +47,4 @@ public class QuartzConfig {
         return factory;
     }
 
-    // @Bean
-    // public JobDetail timeDetail() {
-    //     return JobBuilder.newJob(TimeJob.class)
-    //             .withIdentity("timeJob", "timeGroup")
-    //             .storeDurably()
-    //             // 在jobDataMap传入数据，可以在JOB中获取到
-    //             .usingJobData("title", "this is a time job")
-    //             .usingJobData("beginDate", LocalDateTime.now().toString())
-    //             .build();
-    // }
-    //
-    // @Bean
-    // public Trigger simpleTrigger() {
-    //     // 每隔5秒执行一次
-    //     SimpleScheduleBuilder schedule = SimpleScheduleBuilder
-    //             .simpleSchedule()
-    //             .withIntervalInSeconds(5)
-    //             .repeatForever();
-    //     return TriggerBuilder.newTrigger()
-    //             .forJob(timeDetail())
-    //             .withIdentity("timeJob", "timeGroup")
-    //             .withDescription("simple trigger")
-    //             .withSchedule(schedule)
-    //             .build();
-    // }
-    //
-    // @Bean
-    // public Trigger cronTrigger() {
-    //     // 每隔8秒执行一次
-    //     CronScheduleBuilder schedule = CronScheduleBuilder.cronSchedule("*/8 * * * * ?");
-    //     return TriggerBuilder.newTrigger()
-    //             .forJob(timeDetail())
-    //             .withIdentity("timeJob", "timeGroup")
-    //             .withDescription("cron trigger")
-    //             .withSchedule(schedule)
-    //             .build();
-    // }
-
 }
