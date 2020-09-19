@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * @date 2020-09-15
  */
 @Slf4j
-public class LogJob {
+public class JobOne {
 
     public void run() {
         log.info(LocalDateTime.now().toString());

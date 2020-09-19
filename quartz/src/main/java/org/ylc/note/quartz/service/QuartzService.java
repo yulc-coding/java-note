@@ -3,9 +3,10 @@ package org.ylc.note.quartz.service;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.stereotype.Component;
+import org.ylc.note.quartz.constant.ConfigConstant;
 import org.ylc.note.quartz.constant.EnumConstant;
-import org.ylc.note.quartz.job.QuartzScheduleJob;
 import org.ylc.note.quartz.entity.ScheduleJob;
+import org.ylc.note.quartz.job.QuartzScheduleJob;
 
 /**
  * 代码全万行，注释第一行
@@ -64,7 +65,7 @@ public class QuartzService {
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(job.getId())).withSchedule(scheduleBuilder).build();
 
             //放入参数，运行时的方法可以获取
-            jobDetail.getJobDataMap().put("JOB_PARAM_KEY", job);
+            jobDetail.getJobDataMap().put(ConfigConstant.JOB_PARAM_KEY, job);
             // 生成定时任务
             scheduler.scheduleJob(jobDetail, trigger);
 
@@ -121,7 +122,7 @@ public class QuartzService {
             //按新的cronExpression表达式重新构建trigger
             trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
             //参数
-            trigger.getJobDataMap().put("JOB_PARAM_KEY", job);
+            trigger.getJobDataMap().put(ConfigConstant.JOB_PARAM_KEY, job);
             // 重置定时任务
             scheduler.rescheduleJob(triggerKey, trigger);
 

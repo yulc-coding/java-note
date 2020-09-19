@@ -1,6 +1,8 @@
 package org.ylc.note.quartz.service;
 
 import org.springframework.stereotype.Service;
+import org.ylc.note.quartz.entity.ScheduleJobLog;
+import org.ylc.note.quartz.repository.ScheduleJobLogRepository;
 
 /**
  * 代码全万行，注释第一行
@@ -12,5 +14,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ScheduleJobLogService {
+
+    private final ScheduleJobLogRepository scheduleJobLogRepository;
+
+    public ScheduleJobLogService(ScheduleJobLogRepository scheduleJobLogRepository) {
+        this.scheduleJobLogRepository = scheduleJobLogRepository;
+    }
+
+    public void save(ScheduleJobLog log) {
+        scheduleJobLogRepository.save(log);
+    }
+
 
 }

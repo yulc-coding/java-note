@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  * @date 2020-08-27
  */
 @Slf4j
-public class TimeJob extends QuartzJobBean {
+public class JobTow extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext context) {
