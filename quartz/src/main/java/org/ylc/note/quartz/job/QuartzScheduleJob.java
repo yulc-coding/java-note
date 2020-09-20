@@ -2,9 +2,9 @@ package org.ylc.note.quartz.job;
 
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.ylc.note.quartz.constant.ConfigConstant;
+import org.ylc.note.quartz.constant.EnumConstant;
 import org.ylc.note.quartz.entity.ScheduleJob;
 import org.ylc.note.quartz.entity.ScheduleJobLog;
 import org.ylc.note.quartz.service.ScheduleJobLogService;
@@ -29,10 +29,10 @@ import java.util.concurrent.Future;
 @Slf4j
 public class QuartzScheduleJob extends QuartzJobBean {
 
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+    protected void executeInternal(JobExecutionContext context) {
         ScheduleJob job = (ScheduleJob) context.getMergedJobDataMap().get(ConfigConstant.JOB_PARAM_KEY);
 
         ScheduleJobLogService scheduleJobLogService = SpringContextUtil.getBean(ScheduleJobLogService.class);
@@ -50,20 +50,23 @@ public class QuartzScheduleJob extends QuartzJobBean {
         log.info("准备执行任务，ID：[{}]", job.getId());
 
         try {
-            ScheduleRunnable task = new ScheduleRunnable(job.getClass(), job.getMethodName(), job.getParameter());
+            ScheduleRunnable task = new ScheduleRunnable(job.getClassName(), job.getMethodName(), job.getParameter());
 
             Future<?> future = executorService.submit(task);
             future.get();
 
-            jobLog.setExecutionStatus("1");
+            jobLog.setExecutionStatus(EnumConstant.ExecutionStatus.SUCCESS.getCode());
         } catch (Exception e) {
             log.error("执行任务失败，id:[{}]", job.getId(), e);
 
-            jobLog.setExecutionStatus("0");
+            jobLog.setExecutionStatus(EnumConstant.ExecutionStatus.FAIL.getCode());
+            jobLog.setErrMsg(e.getMessage());
         } finally {
             long endTime = System.currentTimeMillis();
 
+            jobLog.setEndTime(LocalDateTime.now());
             jobLog.setExecutionTime(endTime - startTime);
+
             scheduleJobLogService.save(jobLog);
         }
 

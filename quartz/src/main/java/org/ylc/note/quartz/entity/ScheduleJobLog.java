@@ -55,7 +55,7 @@ public class ScheduleJobLog {
      * 错误信息
      */
     @Column(name = "err_msg")
-    private Long errMsg;
+    private String errMsg;
 
     @Column(name = "begin_time")
     private LocalDateTime beginTime;

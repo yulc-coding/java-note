@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
  * @date 2020-09-19
  */
 @Slf4j
-public class ScheduleRunnable<T> implements Runnable {
+public class ScheduleRunnable implements Runnable {
 
     /**
      * 执行类
@@ -33,13 +33,13 @@ public class ScheduleRunnable<T> implements Runnable {
      */
     private final String params;
 
-    public ScheduleRunnable(Class<T> clazz, String methodName, String params) throws NoSuchMethodException {
-        this.target = SpringContextUtil.getBean(clazz);
+    public ScheduleRunnable(String className, String methodName, String params) throws NoSuchMethodException {
+        this.target = SpringContextUtil.getBean(className);
         this.params = params;
         if (StringUtils.isEmpty(params)) {
-            this.method = clazz.getDeclaredMethod(methodName);
+            this.method = target.getClass().getDeclaredMethod(methodName);
         } else {
-            this.method = clazz.getDeclaredMethod(methodName, String.class);
+            this.method = target.getClass().getDeclaredMethod(methodName, String.class);
         }
     }
 

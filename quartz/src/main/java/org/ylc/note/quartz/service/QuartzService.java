@@ -2,6 +2,7 @@ package org.ylc.note.quartz.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.ylc.note.quartz.constant.ConfigConstant;
 import org.ylc.note.quartz.constant.EnumConstant;
@@ -24,7 +25,7 @@ public class QuartzService {
 
     private final static String JOB_NAME = "TASK_";
 
-    public QuartzService(Scheduler scheduler) {
+    public QuartzService(@Qualifier("schedulerFactoryBean") Scheduler scheduler) {
         this.scheduler = scheduler;
     }
 

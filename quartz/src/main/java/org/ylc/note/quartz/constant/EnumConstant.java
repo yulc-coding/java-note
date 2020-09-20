@@ -26,5 +26,17 @@ public class EnumConstant {
 
     }
 
+    @Getter
+    @AllArgsConstructor
+    public enum ExecutionStatus {
+
+        FAIL("0", "正常"),
+        SUCCESS("1", "暂停");
+
+        private final String code;
+
+        private final String value;
+    }
+
 
 }
