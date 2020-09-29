@@ -50,21 +50,33 @@ public class SecurityUserDetails implements UserDetails {
         return this.username;
     }
 
+    /**
+     * 是否账户未过期
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /**
+     * 是否账户未锁定
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /**
+     * 是否账户未过期
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /**
+     * 是否可用
+     */
     @Override
     public boolean isEnabled() {
         return true;
