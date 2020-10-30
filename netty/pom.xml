@@ -17,6 +17,7 @@
     <modules>
         <module>netty-server</module>
         <module>netty-client</module>
+        <module>http-server</module>
     </modules>
 
 </project>
