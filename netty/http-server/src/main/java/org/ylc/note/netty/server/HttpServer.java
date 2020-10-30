@@ -1,4 +1,4 @@
-package org.ylc.note.netty;
+package org.ylc.note.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -19,6 +19,10 @@ import java.net.InetSocketAddress;
  * 注释不规范，同事泪两行
  * <p>
  * HTTP服务器
+ * 服务端启动过程：
+ * 配置线程池
+ * 初始化 Channel
+ * 端口绑定
  *
  * @author YuLc
  * @version 1.0.0
@@ -41,9 +45,10 @@ public class HttpServer {
                     // 设置 Channel 类型，推荐使用 NioServerSocketChannel
                     .channel(NioServerSocketChannel.class)
                     .localAddress(new InetSocketAddress(port))
+                    // 注册 ChannelHandler
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
+                        protected void initChannel(SocketChannel ch) {
                             ch.pipeline()
                                     // HTTP 编解码
                                     .addLast("codec", new HttpServerCodec())
@@ -55,8 +60,11 @@ public class HttpServer {
                                     .addLast("handler", new HttpServerHandler());
                         }
                     })
+                    // 设置 Boss 线程组 对应的Channel 参数
+                    .option(ChannelOption.SO_BACKLOG, 1024)
+                    // 设置 Worker 线程组 对应的Channel 参数
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
-
+            // 端口绑定
             ChannelFuture future = bootstrap.bind().sync();
             System.out.println("Http Server started， Listening on " + port);
             future.channel().closeFuture().sync();

@@ -1,4 +1,4 @@
-package org.ylc.note.netty;
+package org.ylc.note.netty.server;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
