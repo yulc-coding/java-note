@@ -1,0 +1,27 @@
+# 使用 druid 连接池
+spring:
+  shardingsphere:
+    datasource:
+      names: sharding, sharding0, sharding1
+      sharding:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/sharding?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
+        username: root
+        password: root2019!
+        # 开启Druid的监控统计功能
+        filters: stat,wall,log4j2
+      sharding0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/sharding0?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
+        username: root
+        password: root2019!
+        filters: stat,wall,log4j2
+      sharding1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/sharding1?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
+        username: root
+        password: root2019!
+        filters: stat,wall,log4j2

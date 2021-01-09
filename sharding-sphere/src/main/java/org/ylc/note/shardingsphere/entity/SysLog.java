@@ -1,5 +1,6 @@
 package org.ylc.note.shardingsphere.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,11 +20,12 @@ import java.time.LocalDateTime;
 @ToString
 public class SysLog {
 
-    private Integer id;
+    private Long id;
 
     private Integer operationId;
 
     private Integer value;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 }

@@ -3,14 +3,14 @@
 <mapper namespace="org.ylc.note.shardingsphere.mapper.SysLogMapper">
 
     <resultMap id="BaseResultMap" type="org.ylc.note.shardingsphere.entity.SysLog">
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="operation_id" jdbcType="INTEGER" property="operationId"/>
         <result column="value" jdbcType="INTEGER" property="value"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
 
     <insert id="newLog">
-        insert into sys_log (value,create_time) values(#{log.value}, #{log.create_time})
+        insert into sys_log (operation_id, value, create_time) values(#{log.operationId}, #{log.value}, #{log.createTime})
     </insert>
 
     <select id="rangeSearch" resultMap="BaseResultMap">
