@@ -18,7 +18,7 @@ CREATE SCHEMA `sharding1` DEFAULT CHARACTER SET utf8 ;
 
 -- 分库下的分表，每个分库都有
 CREATE TABLE `sys_log_202007` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` BIGINT UNSIGNED NOT NULL,
   `value` int NOT NULL,
   `operation_id` int NOT NULL,
   `create_time` datetime DEFAULT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE `sys_log_202007` (
 
 
 CREATE TABLE `sys_log_202008` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` BIGINT UNSIGNED NOT NULL,
   `value` int NOT NULL,
   `operation_id` int NOT NULL,
   `create_time` datetime DEFAULT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `sys_log_202008` (
 
 
 CREATE TABLE `sys_log_202009` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` BIGINT UNSIGNED NOT NULL,
   `value` int NOT NULL,
   `operation_id` int NOT NULL,
   `create_time` datetime DEFAULT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `sys_log_202009` (
 
 
 CREATE TABLE `sys_log_202010` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` BIGINT UNSIGNED NOT NULL,
   `value` int NOT NULL,
   `operation_id` int NOT NULL,
   `create_time` datetime DEFAULT NULL,

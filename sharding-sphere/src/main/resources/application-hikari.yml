@@ -1,0 +1,23 @@
+# 使用 hikari 连接池
+spring:
+  shardingsphere:
+    datasource:
+      names: sharding, sharding0, sharding1
+      sharding:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/sharding?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
+        username: root
+        password: root2019!
+      sharding0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/sharding0?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
+        username: root
+        password: root2019!
+      sharding1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/sharding1?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
+        username: root
+        password: root2019!

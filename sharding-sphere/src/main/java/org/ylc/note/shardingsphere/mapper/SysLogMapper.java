@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2020/7/24
  */
 @Component
-public interface SysLogMapper {
+public interface SysLogMapper{
 
     void newLog(@Param("log") SysLog sysLog);
 

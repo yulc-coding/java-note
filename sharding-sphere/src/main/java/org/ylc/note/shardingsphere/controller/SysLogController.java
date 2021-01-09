@@ -2,9 +2,8 @@ package org.ylc.note.shardingsphere.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.ylc.note.shardingsphere.dto.SysLogDto;
 import org.ylc.note.shardingsphere.entity.SysLog;
 import org.ylc.note.shardingsphere.mapper.SysLogMapper;
 
@@ -63,12 +62,13 @@ public class SysLogController {
         return ResponseEntity.ok(pageList);
     }
 
-    @GetMapping("/newLog")
-    public String newLog(Integer value, Integer month) {
+    @PostMapping("/newLog")
+    public String newLog(@RequestBody SysLogDto dto) {
 
-        LocalDateTime createTime = LocalDateTime.of(2020, month, 7, 0, 0);
+        LocalDateTime createTime = LocalDateTime.of(2020, dto.getMonth(), 7, 0, 0);
         SysLog log = new SysLog();
-        log.setValue(value);
+        log.setOperationId(dto.getOperationId());
+        log.setValue(dto.getValue());
         log.setCreateTime(createTime);
 
         sysLogMapper.newLog(log);
