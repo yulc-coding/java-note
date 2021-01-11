@@ -54,7 +54,7 @@ public class HttpServer {
                                     .addLast("codec", new HttpServerCodec())
                                     // HttpContent 压缩
                                     .addLast("compressor", new HttpContentCompressor())
-                                    // HTTP 消息聚合
+                                    // HTTP 消息聚合；netty是基于分段请求的，将请求分段再聚合,参数是聚合字节的最大长度
                                     .addLast("aggregator", new HttpObjectAggregator(65536))
                                     // 自定义业务逻辑处理器
                                     .addLast("handler", new HttpServerHandler());
