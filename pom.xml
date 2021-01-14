@@ -29,6 +29,7 @@
         <module>sharding-sphere</module>
         <module>quartz</module>
         <module>poi</module>
+        <module>dubbo</module>
     </modules>
 
     <properties>
